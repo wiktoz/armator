@@ -5,12 +5,10 @@ import com.armator.model.AuthResponse;
 import com.armator.model.AuthenticationRequest;
 import com.armator.model.RegisterRequest;
 import com.armator.security.AuthenticationService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -25,8 +23,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok((authenticationService.login(request)));
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthenticationRequest request, HttpServletResponse response ) {
+        return ResponseEntity.ok((authenticationService.login(request, response)));
     }
 
 }

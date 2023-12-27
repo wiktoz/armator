@@ -2,7 +2,10 @@ package com.armator.security;
 
 import com.armator.model.*;
 import com.armator.repositoriy.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +37,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthResponse login(AuthenticationRequest request) {
+    public AuthResponse login(AuthenticationRequest request, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -44,6 +47,12 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         var jwtToken = jwtService.generateToken(user);
+        ResponseCookie cookie = ResponseCookie.from("Authorization", jwtToken)
+                .httpOnly(true)
+                .path("/")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
         return AuthResponse.builder()
                 .token(jwtToken)
                 .build();
