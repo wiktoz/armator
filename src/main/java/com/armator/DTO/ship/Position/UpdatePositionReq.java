@@ -1,4 +1,4 @@
-package com.armator.model;
+package com.armator.DTO.ship.Position;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-    private String email;
-    private String password;
+public class UpdatePositionReq {
+    private Double latitude;
+    private Double longitude;
 }

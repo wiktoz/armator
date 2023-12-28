@@ -22,14 +22,14 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue
-    private Integer id;;
+    private Integer id;
     private String firstname;
     private String lastname;
 
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private AppRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

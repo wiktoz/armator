@@ -1,10 +1,10 @@
 package com.armator.controller;
 
 
-import com.armator.model.AuthResponse;
-import com.armator.model.AuthenticationRequest;
-import com.armator.model.RegisterRequest;
-import com.armator.security.AuthenticationService;
+import com.armator.DTO.auth.AuthResponse;
+import com.armator.DTO.auth.AuthenticationRequest;
+import com.armator.DTO.auth.RegisterRequest;
+import com.armator.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

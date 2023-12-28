@@ -1,4 +1,4 @@
-package com.armator.security;
+package com.armator.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

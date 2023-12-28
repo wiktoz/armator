@@ -1,5 +1,8 @@
-package com.armator.security;
+package com.armator.service;
 
+import com.armator.DTO.auth.AuthResponse;
+import com.armator.DTO.auth.AuthenticationRequest;
+import com.armator.DTO.auth.RegisterRequest;
 import com.armator.model.*;
 import com.armator.repositoriy.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +31,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

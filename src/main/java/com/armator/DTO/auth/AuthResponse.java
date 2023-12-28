@@ -1,4 +1,4 @@
-package com.armator.model;
+package com.armator.DTO.auth;
 
 
 import lombok.AllArgsConstructor;

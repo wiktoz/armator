@@ -1,4 +1,4 @@
 package com.armator.model;
 
-public class Role {
+public class Port {
 }

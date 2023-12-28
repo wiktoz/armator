@@ -1,5 +1,6 @@
 package com.armator.config;
 
+import com.armator.repositoriy.ShipRepository;
 import com.armator.repositoriy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-
+    private final ShipRepository shipRepository;
     private final UserRepository userRepository;
     @Bean
     public UserDetailsService userDetailsService() {
