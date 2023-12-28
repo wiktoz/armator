@@ -1,6 +1,8 @@
 package com.armator.controller;
 
 
+import com.armator.DTO.Message;
+import com.armator.DTO.ship.CreateShipReq;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
@@ -27,5 +29,20 @@ public class ShipController {
     @GetMapping("/{id}")
     public ResponseEntity<ShipResponse> getShipById(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.getShip(id));
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<ShipResponse> createShip(@RequestBody CreateShipReq req) {
+        return ResponseEntity.ok(shipService.createShip(req));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ShipResponse> updateShip(@PathVariable Integer id, @RequestBody CreateShipReq req) {
+        return ResponseEntity.ok(shipService.updateShip(id, req));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Message> deleteShip(@PathVariable Integer id) {
+        return ResponseEntity.ok(shipService.deleteShip(id));
     }
 }
