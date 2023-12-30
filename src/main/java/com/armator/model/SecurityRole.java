@@ -1,6 +1,10 @@
 package com.armator.model;
 
-public enum AppRole {
+
+/**
+ * Class used to define RBAC
+ */
+public enum SecurityRole {
     USER,
     SHIPOWNER,
     ADMIN

@@ -3,10 +3,12 @@ package com.armator.service;
 
 import com.armator.DTO.user.UpdateUser;
 import com.armator.DTO.user.UserResponse;
+import com.armator.model.User;
 import com.armator.repositoriy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -49,5 +51,9 @@ public class UserService {
                     .email(user.getEmail())
                     .build();
 
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

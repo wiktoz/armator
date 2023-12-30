@@ -1,6 +1,6 @@
 package com.armator.DTO.auth;
 
-import com.armator.model.AppRole;
+import com.armator.model.SecurityRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
-    private AppRole role;
+    private SecurityRole role;
 
 }

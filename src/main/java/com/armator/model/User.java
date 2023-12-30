@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private AppRole role;
+    private SecurityRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

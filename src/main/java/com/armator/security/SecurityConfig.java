@@ -1,8 +1,7 @@
 package com.armator.security;
 
 
-import com.armator.model.AppRole;
-import jakarta.servlet.Filter;
+import com.armator.model.SecurityRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +23,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/ship/**").hasAnyAuthority(AppRole.SHIPOWNER.name())
+                .requestMatchers("/api/v1/auth/login").permitAll()
+                .requestMatchers("/api/v1/auth/register").hasAnyAuthority(SecurityRole.ADMIN.name())
+                .requestMatchers("/api/v1/ship/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name())
                 .anyRequest().authenticated();
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
