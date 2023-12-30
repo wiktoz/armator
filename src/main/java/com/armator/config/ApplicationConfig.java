@@ -1,7 +1,12 @@
 package com.armator.config;
 
+import com.armator.model.Ship;
+import com.armator.model.Shipowner;
+import com.armator.model.User;
 import com.armator.repositoriy.ShipRepository;
+import com.armator.repositoriy.ShipownerRepository;
 import com.armator.repositoriy.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +29,7 @@ public class ApplicationConfig {
 
     private final ShipRepository shipRepository;
     private final UserRepository userRepository;
+    private final ShipownerRepository shipownerRepository;
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
@@ -46,6 +52,52 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration ac) throws Exception {
         return ac.getAuthenticationManager();
+    }
+
+    @PostConstruct
+    public void init() {
+        var user = User.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email("test@test.com")
+                .password(passwordEncoder().encode("test"))
+                .build();
+        var admin = User.builder()
+                .firstname("Janusz")
+                .lastname("Tracz")
+                .email("admin@test.com")
+                .password(passwordEncoder().encode("test"))
+                .build();
+        var shipowner = User.builder()
+                .firstname("Piotr")
+                .lastname("Gryf")
+                .email("piotr@test.com")
+                .password(passwordEncoder().encode("birdisaword"))
+                .build();
+
+        userRepository.save(user);
+        userRepository.save(admin);
+        userRepository.save(shipowner);
+
+        var shipOwner = Shipowner.builder()
+                .user(shipowner)
+                .build();
+
+        shipownerRepository.save(shipOwner);
+
+        var ship = Ship.builder()
+                .name("Titanic")
+                .shipOwner(shipOwner)
+                .flag("Israel")
+                .maxKnots(100)
+                .maxFuelCapacity(100)
+                .maxLoadsNumber(100)
+                .longitude(56.0)
+                .latitude(56.0)
+                .build();
+
+        shipRepository.save(ship);
+
     }
 
 }
