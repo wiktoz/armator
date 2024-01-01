@@ -1,13 +1,7 @@
 package com.armator.config;
 
-import com.armator.model.SecurityRole;
-import com.armator.model.Ship;
-import com.armator.model.Shipowner;
-import com.armator.model.User;
-import com.armator.repositoriy.RoleRepository;
-import com.armator.repositoriy.ShipRepository;
-import com.armator.repositoriy.ShipownerRepository;
-import com.armator.repositoriy.UserRepository;
+import com.armator.model.*;
+import com.armator.repositoriy.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +26,8 @@ public class ApplicationConfig {
     private final ShipRepository shipRepository;
     private final UserRepository userRepository;
     private final ShipownerRepository shipownerRepository;
+    private final RoleRepository roleRepository;
+    private final WorkerRepository workerRepository;
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
@@ -102,6 +98,57 @@ public class ApplicationConfig {
                 .build();
 
         shipRepository.save(ship);
+
+        var mechanic = Role.builder()
+                .name("Mechanic")
+                .salary(1000)
+                .build();
+
+        var captain = Role.builder()
+                .name("Captain")
+                .salary(10000)
+                .build();
+
+        var paramedic = Role.builder()
+                .name("Paramedic")
+                .salary(5000)
+                .build();
+
+        roleRepository.save(mechanic);
+        roleRepository.save(captain);
+        roleRepository.save(paramedic);
+
+        var worker = Worker.builder()
+                .email("test@test.com")
+                .backAccountId("123456789")
+                .idCardNumber("123456789")
+                .phoneNumber("123456789")
+                .city("Warsaw")
+                .street("Marszalkowska")
+                .zipCode("00-000")
+                .houseNumber("1")
+                .flatNumber("1")
+                .role(mechanic)
+                .user(user)
+                .build();
+
+        var captainWorker = Worker.builder()
+                .email("piotr@test.com")
+                .backAccountId("9897654321")
+                .idCardNumber("987654321")
+                .phoneNumber("987654321")
+                .city("Warsaw")
+                .street("Janusza Pawulona 2")
+                .zipCode("00-000")
+                .houseNumber("1")
+                .flatNumber("2")
+                .role(captain)
+                .user(shipowner)
+                .build();
+
+        workerRepository.save(worker);
+        workerRepository.save(captainWorker);
+
 
 
 

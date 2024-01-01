@@ -9,6 +9,8 @@ import com.armator.repositoriy.WorkerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WorkerService {
@@ -22,7 +24,7 @@ public class WorkerService {
     public Worker createWorker(CreateWorkerReq req) {
         var role = roleRepository.findByName(req.getRole()).orElseThrow( () -> new RuntimeException("Role not found"));
         var user = userRepository.findByEmail(req.getEmail()).orElseThrow( () -> new RuntimeException("User not found"));
-        return Worker.builder()
+        var worker =  Worker.builder()
                 .email(req.getEmail())
                 .role(role)
                 .user(user)
@@ -35,6 +37,8 @@ public class WorkerService {
                 .houseNumber(req.getHouseNumber())
                 .flatNumber(req.getFlatNumber())
                 .build();
+        workerRepository.save(worker);
+        return worker;
 
 
     }
@@ -77,5 +81,9 @@ public class WorkerService {
             worker.setUser(user);
         }
         return workerRepository.save(worker);
+    }
+
+    public List<Worker> getAllWorkers() {
+        return workerRepository.findAll();
     }
 }

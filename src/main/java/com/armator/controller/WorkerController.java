@@ -27,6 +27,10 @@ public class WorkerController {
     public ResponseEntity<Worker> updateWorker(@PathVariable Integer id, @RequestBody CreateWorkerReq req) {
         return ResponseEntity.ok(workerService.updateWorker(id, req));
     }
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Worker>> getAllWorkers() {
+        return ResponseEntity.ok(workerService.getAllWorkers());
+    }
 
 
 }
