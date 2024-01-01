@@ -1,8 +1,10 @@
 package com.armator.config;
 
+import com.armator.model.SecurityRole;
 import com.armator.model.Ship;
 import com.armator.model.Shipowner;
 import com.armator.model.User;
+import com.armator.repositoriy.RoleRepository;
 import com.armator.repositoriy.ShipRepository;
 import com.armator.repositoriy.ShipownerRepository;
 import com.armator.repositoriy.UserRepository;
@@ -61,18 +63,21 @@ public class ApplicationConfig {
                 .lastname("Doe")
                 .email("test@test.com")
                 .password(passwordEncoder().encode("test"))
+                .role(SecurityRole.USER)
                 .build();
         var admin = User.builder()
                 .firstname("Janusz")
                 .lastname("Tracz")
                 .email("admin@test.com")
                 .password(passwordEncoder().encode("test"))
+                .role(SecurityRole.ADMIN)
                 .build();
         var shipowner = User.builder()
                 .firstname("Piotr")
                 .lastname("Gryf")
                 .email("piotr@test.com")
                 .password(passwordEncoder().encode("birdisaword"))
+                .role(SecurityRole.SHIPOWNER)
                 .build();
 
         userRepository.save(user);
@@ -97,6 +102,8 @@ public class ApplicationConfig {
                 .build();
 
         shipRepository.save(ship);
+
+
 
     }
 
