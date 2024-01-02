@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,9 +22,9 @@ public class Cruise {
     @GeneratedValue
     private Integer cruiseId;
     @Temporal(TemporalType.DATE)
-    private Date startDate;
+    private LocalDate startDate;
     @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private LocalDate endDate;
     private Double routeLength;
     private Integer loadsNumber;
     @ManyToOne
@@ -37,5 +38,6 @@ public class Cruise {
     private Port dstPort;
     @ManyToMany(mappedBy = "cruises")
     private Set<Worker> workers;
+
 
 }
