@@ -5,6 +5,7 @@ import com.armator.DTO.user.UpdateUser;
 import com.armator.DTO.user.UserResponse;
 import com.armator.model.User;
 import com.armator.repositoriy.UserRepository;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,21 +16,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
+    public User getUserById(Integer id) {
 
-    public UserResponse getUserById(Integer id) {
-
-        var user = userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found"));
-
-        return UserResponse.builder()
-                    .id(user.getId())
-                    .firstname(user.getFirstname())
-                    .lastname(user.getLastname())
-                    .email(user.getEmail())
-                    .build();
+        return userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found"));
 
     }
 
-    public UserResponse updateUser(Integer id, UpdateUser req) {
+    public User updateUser(Integer id, UpdateUser req) {
         var user= userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found"));
 
         if(Objects.nonNull(req.getFirstname())) {
@@ -44,16 +38,20 @@ public class UserService {
 
         userRepository.save(user);
 
-        return UserResponse.builder()
-                    .id(user.getId())
-                    .firstname(user.getFirstname())
-                    .lastname(user.getLastname())
-                    .email(user.getEmail())
-                    .build();
+        return user;
 
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow( () -> new RuntimeException("User not found"));
+    }
+
+    public User getMe(String token) {
+        var email = jwtService.extractEmail(token.substring(7));
+        return getUserByEmail(email);
     }
 }
