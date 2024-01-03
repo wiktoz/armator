@@ -26,6 +26,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAnyAuthority(SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/ship/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name())
+                .requestMatchers("/api/v1/user/email/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
+                .requestMatchers("/api/v1/user/all/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
+                .requestMatchers("/api/v1/user/id/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .anyRequest().authenticated();
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

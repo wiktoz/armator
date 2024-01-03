@@ -52,6 +52,6 @@ public class UserService {
 
     public User getMe(String token) {
         var email = jwtService.extractEmail(token.substring(7));
-        return getUserByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow( () -> new RuntimeException("User not found"));
     }
 }

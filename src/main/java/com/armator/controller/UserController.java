@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     //@PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody UpdateUser req) {
         return ResponseEntity.ok(userService.updateUser(id, req));
     }
