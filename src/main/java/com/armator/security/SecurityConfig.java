@@ -25,6 +25,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/api/v1/auth/login").permitAll()
+                .requestMatchers("/api/v1/auth/check-token").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAnyAuthority(SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/ship/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name())
                 .requestMatchers("/api/v1/user/email/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())

@@ -1,13 +1,14 @@
 package com.armator.controller;
 
 
-import com.armator.DTO.auth.AuthResponse;
-import com.armator.DTO.auth.AuthenticationRequest;
-import com.armator.DTO.auth.RegisterRequest;
+import com.armator.DTO.Message;
+import com.armator.DTO.auth.*;
+import com.armator.exceptions.UserAlreadyExistsException;
 import com.armator.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,13 +20,32 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try{
+            return ResponseEntity.ok(authenticationService.register(request));
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.ok(RegisterMessage.builder().message("This user already exists!").registered(false).build());
+        }
+
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthenticationRequest request, HttpServletResponse response ) {
-        return ResponseEntity.ok((authenticationService.login(request, response)));
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request, HttpServletResponse response ) {
+        try{
+            return ResponseEntity.ok((authenticationService.login(request, response)));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.ok(AuthMessage.builder().message("Authentication failed. Invalid credentials").authenticated(false).build());
+        }
+
     }
+    @GetMapping("/check-token")
+    public ResponseEntity<?> checkToken(@RequestBody TokenReq req) {
+        try{
+            return ResponseEntity.ok(authenticationService.checkToken(req));
+        } catch (Exception e) {
+            return ResponseEntity.ok(AuthMessage.builder().message("Authentication failed. Invalid token.").authenticated(false).build());
+        }
+    }
+
 
 }

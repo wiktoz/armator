@@ -1,8 +1,8 @@
 package com.armator.service;
 
-import com.armator.DTO.auth.AuthResponse;
-import com.armator.DTO.auth.AuthenticationRequest;
-import com.armator.DTO.auth.RegisterRequest;
+import com.armator.DTO.auth.*;
+import com.armator.exceptions.SecurityException;
+import com.armator.exceptions.UserAlreadyExistsException;
 import com.armator.model.*;
 import com.armator.repositoriy.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,11 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
-    public AuthResponse register(RegisterRequest request) {
+    private final UserDetailsService userDetailsService;
+    public RegisterMessage register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()){
+            throw new UserAlreadyExistsException("This user already exists!");
+        }
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -34,9 +40,9 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthResponse.builder()
-                .token(jwtToken)
+        return RegisterMessage.builder()
+                .message("User registered successfully")
+                .registered(true)
                 .build();
     }
 
@@ -60,5 +66,22 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+    public AuthMessage checkToken(TokenReq req) {
+        String email = jwtService.extractEmail(req.getToken());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
+        boolean isValid = false;
+        try {
+            isValid = jwtService.isTokenValid(req.getToken(), userDetails);
+        } catch (SecurityException e) {
+            return AuthMessage.builder()
+                    .message("Token is invalid.")
+                    .authenticated(false)
+                    .build();
+        }
+        return AuthMessage.builder()
+                .message("Token is valid.")
+                .authenticated(isValid)
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.armator.service;
 
+import com.armator.exceptions.SecurityException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -48,6 +49,7 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String email = extractEmail(token);
+        if (isTokenExpired(token)) throw new SecurityException("Token expired!");
         return email.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 

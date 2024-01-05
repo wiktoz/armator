@@ -29,4 +29,5 @@ public class Load {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "dstPortId")
     private Port dstPortId;
+    private String status;
 }
