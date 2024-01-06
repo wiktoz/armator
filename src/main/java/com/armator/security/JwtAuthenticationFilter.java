@@ -13,12 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -50,8 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (NoSuchAlgorithmException e) {
             throw new SecurityException("No such algorithm");
         }
-        byte[] encodedhash = digest.digest(jwt.getBytes());
-        String jwtDigest = new String(encodedhash);
+        byte[] hash = digest.digest(jwt.getBytes());
+        String jwtDigest = new BigInteger(1, hash).toString(16);
         if (tokenRepository.findByRevokedTokenDigest(jwtDigest).isPresent()){
             filterChain.doFilter(request, response);
             return;

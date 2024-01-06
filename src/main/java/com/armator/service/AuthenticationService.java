@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -97,9 +98,9 @@ public class AuthenticationService {
         } catch (NoSuchAlgorithmException e) {
             throw new SecurityException("Error while hashing token.");
         }
-        final byte[] hashbytes = digest.digest(req.getBytes());
-        String hash = new String(hashbytes);
-        tokenRepository.save(RevokedToken.builder().revokedTokenDigest(hash).build());
+        final byte[] hash = digest.digest(req.getBytes());
+        String strHash = new BigInteger(1, hash).toString(16);
+        tokenRepository.save(RevokedToken.builder().revokedTokenDigest(strHash).build());
         return RevokeStatus.builder()
                 .message("Token revoked.")
                 .revoked(true)
