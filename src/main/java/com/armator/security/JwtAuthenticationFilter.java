@@ -1,5 +1,6 @@
 package com.armator.security;
 
+import com.armator.repositoriy.TokenRepository;
 import com.armator.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
 
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -34,11 +38,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String email;
+
         if (authHeader == null ||! authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         jwt = authHeader.substring(7);
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA3-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new SecurityException("No such algorithm");
+        }
+        byte[] encodedhash = digest.digest(jwt.getBytes());
+        String jwtDigest = new String(encodedhash);
+        if (tokenRepository.findByRevokedTokenDigest(jwtDigest).isPresent()){
+            filterChain.doFilter(request, response);
+            return;
+        }
         email = jwtService.extractEmail(jwt);
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);

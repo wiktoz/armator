@@ -4,6 +4,7 @@ import com.armator.DTO.auth.*;
 import com.armator.exceptions.SecurityException;
 import com.armator.exceptions.UserAlreadyExistsException;
 import com.armator.model.*;
+import com.armator.repositoriy.TokenRepository;
 import com.armator.repositoriy.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
     public RegisterMessage register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("This user already exists!");
@@ -82,6 +87,26 @@ public class AuthenticationService {
         return AuthMessage.builder()
                 .message("Token is valid.")
                 .authenticated(isValid)
+                .build();
+    }
+
+    public RevokeStatus revokeToken(TokenReq req){
+        final MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA3-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new SecurityException("Error while hashing token.");
+        }
+        final byte[] hashbytes = digest.digest(req.getToken().getBytes());
+        String hash = new String(hashbytes);
+        tokenRepository.save(RevokedToken.builder().revokedTokenDigest(hash).build());
+        ResponseCookie cookie = ResponseCookie.from("Authorization", "")
+                .httpOnly(true)
+                .path("/")
+                .build();
+        return RevokeStatus.builder()
+                .message("Token revoked.")
+                .revoked(true)
                 .build();
     }
 }

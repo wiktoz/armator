@@ -3,6 +3,7 @@ package com.armator.controller;
 
 import com.armator.DTO.Message;
 import com.armator.DTO.auth.*;
+import com.armator.exceptions.SecurityException;
 import com.armator.exceptions.UserAlreadyExistsException;
 import com.armator.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,6 +45,15 @@ public class AuthController {
             return ResponseEntity.ok(authenticationService.checkToken(req));
         } catch (Exception e) {
             return ResponseEntity.ok(AuthMessage.builder().message("Authentication failed. Invalid token.").authenticated(false).build());
+        }
+    }
+
+    @GetMapping("/revoke-token")
+    public ResponseEntity<?> revokeToken(@RequestBody TokenReq req) {
+        try{
+            return ResponseEntity.ok(authenticationService.revokeToken(req));
+        } catch (SecurityException e) {
+            return ResponseEntity.ok(RevokeStatus.builder().message("Token not revoked.").revoked(false).build());
         }
     }
 
