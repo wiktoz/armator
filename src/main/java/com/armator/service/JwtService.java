@@ -1,6 +1,7 @@
 package com.armator.service;
 
 import com.armator.exceptions.SecurityException;
+import com.armator.security.KeyLoader;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String key = "a628a492f6a89de246662d3acba5215a65d1deeb60b8ae0d14bb91225c3b3ede"; // todo: create more secure way to store key
+    private final String key = new KeyLoader().getKeyFromFile();
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
