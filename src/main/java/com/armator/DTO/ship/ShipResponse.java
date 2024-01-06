@@ -17,7 +17,7 @@ public class ShipResponse {
     private Integer maxLoadsNumber;
     private Integer maxFuelCapacity;
     private Integer maxKnots;
-
+    private Integer shipOwnerId;
     private Double latitude;
     private Double longitude;
 }

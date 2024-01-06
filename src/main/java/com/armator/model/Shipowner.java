@@ -16,7 +16,7 @@ public class Shipowner {
 
     @Id
     @GeneratedValue
-    private Long shipOwnerId;
+    private Integer shipOwnerId;
 
     @OneToOne
     private User user;

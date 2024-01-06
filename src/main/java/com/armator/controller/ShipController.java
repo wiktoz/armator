@@ -46,4 +46,13 @@ public class ShipController {
     public ResponseEntity<Message> deleteShip(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.deleteShip(id));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllShips() {
+        return ResponseEntity.ok(shipService.getAllShips());
+    }
+    @GetMapping("/shipowner/{id}")
+    public ResponseEntity<?> getShipByShipOwnerId(@PathVariable Integer id) {
+        return ResponseEntity.ok(shipService.getAllShipByShipOwnerId(id));
+    }
 }

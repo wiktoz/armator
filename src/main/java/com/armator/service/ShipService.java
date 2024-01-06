@@ -8,13 +8,17 @@ import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
 import com.armator.model.Ship;
 import com.armator.repositoriy.ShipRepository;
+import com.armator.repositoriy.ShipownerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ShipService {
     private final ShipRepository shipRepository;
+    private final ShipownerRepository shipownerRepository;
 
 
     public PositionResponse getPosition(Integer id) {
@@ -47,6 +51,7 @@ public class ShipService {
                     .maxKnots(ship.getMaxKnots())
                     .latitude(ship.getLatitude())
                     .longitude(ship.getLongitude())
+                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
                     .build();
     }
 
@@ -70,6 +75,7 @@ public class ShipService {
                     .maxKnots(newShip.getMaxKnots())
                     .latitude(newShip.getLatitude())
                     .longitude(newShip.getLongitude())
+                    .shipOwnerId(newShip.getShipOwner().getShipOwnerId())
                     .build();
     }
 
@@ -100,6 +106,37 @@ public class ShipService {
         shipRepository.delete(ship);
         return Message.builder()
                     .message("Ship deleted")
+                    .build();
+    }
+
+    public List<ShipResponse> getAllShips() {
+        var ships = shipRepository.findAll();
+        return ships.stream().map(ship -> ShipResponse.builder()
+                    .shipId(ship.getShipId())
+                    .name(ship.getName())
+                    .flag(ship.getFlag())
+                    .maxLoadsNumber(ship.getMaxLoadsNumber())
+                    .maxFuelCapacity(ship.getMaxFuelCapacity())
+                    .maxKnots(ship.getMaxKnots())
+                    .latitude(ship.getLatitude())
+                    .longitude(ship.getLongitude())
+                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
+                    .build()).toList();
+    }
+
+    public ShipResponse getAllShipByShipOwnerId(Integer id) {
+        var shipowner = shipownerRepository.findByShipOwnerId(id).orElseThrow( () -> new RuntimeException("Shipowner not found"));
+        var ship = shipRepository.findShipByShipOwner(shipowner).orElseThrow( () -> new RuntimeException("Ship not found"));
+        return ShipResponse.builder()
+                    .shipId(ship.getShipId())
+                    .name(ship.getName())
+                    .flag(ship.getFlag())
+                    .maxLoadsNumber(ship.getMaxLoadsNumber())
+                    .maxFuelCapacity(ship.getMaxFuelCapacity())
+                    .maxKnots(ship.getMaxKnots())
+                    .latitude(ship.getLatitude())
+                    .longitude(ship.getLongitude())
+                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
                     .build();
     }
 }
