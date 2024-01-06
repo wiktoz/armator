@@ -72,12 +72,12 @@ public class AuthenticationService {
                 .build();
 
     }
-    public AuthMessage checkToken(TokenReq req) {
-        String email = jwtService.extractEmail(req.getToken());
+    public AuthMessage checkToken(String req) {
+        String email = jwtService.extractEmail(req);
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
         boolean isValid = false;
         try {
-            isValid = jwtService.isTokenValid(req.getToken(), userDetails);
+            isValid = jwtService.isTokenValid(req, userDetails);
         } catch (SecurityException e) {
             return AuthMessage.builder()
                     .message("Token is invalid.")

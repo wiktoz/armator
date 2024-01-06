@@ -39,10 +39,10 @@ public class AuthController {
         }
 
     }
-    @GetMapping("/check-token")
-    public ResponseEntity<?> checkToken(@RequestBody TokenReq req) {
+    @PostMapping("/check-token")
+    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String token) {
         try{
-            return ResponseEntity.ok(authenticationService.checkToken(req));
+            return ResponseEntity.ok(authenticationService.checkToken(token.substring(7)));
         } catch (Exception e) {
             return ResponseEntity.ok(AuthMessage.builder().message("Authentication failed. Invalid token.").authenticated(false).build());
         }
