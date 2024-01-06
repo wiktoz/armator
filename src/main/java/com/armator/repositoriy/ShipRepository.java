@@ -13,6 +13,7 @@ public interface ShipRepository extends JpaRepository<Ship, Integer> {
     Optional<Ship> findByShipId(Integer id);
     List<Ship> findAll();
     Optional<Ship> findShipByShipOwner(Shipowner shipowner);
+    List<Ship> findAllByShipOwner(Shipowner shipowner);
 
 
 }

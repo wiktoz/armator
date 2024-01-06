@@ -109,34 +109,12 @@ public class ShipService {
                     .build();
     }
 
-    public List<ShipResponse> getAllShips() {
-        var ships = shipRepository.findAll();
-        return ships.stream().map(ship -> ShipResponse.builder()
-                    .shipId(ship.getShipId())
-                    .name(ship.getName())
-                    .flag(ship.getFlag())
-                    .maxLoadsNumber(ship.getMaxLoadsNumber())
-                    .maxFuelCapacity(ship.getMaxFuelCapacity())
-                    .maxKnots(ship.getMaxKnots())
-                    .latitude(ship.getLatitude())
-                    .longitude(ship.getLongitude())
-                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
-                    .build()).toList();
+    public List<Ship> getAllShips() {
+        return  shipRepository.findAll();
     }
 
-    public ShipResponse getAllShipByShipOwnerId(Integer id) {
+    public List<Ship> getAllShipByShipOwnerId(Integer id) {
         var shipowner = shipownerRepository.findByShipOwnerId(id).orElseThrow( () -> new RuntimeException("Shipowner not found"));
-        var ship = shipRepository.findShipByShipOwner(shipowner).orElseThrow( () -> new RuntimeException("Ship not found"));
-        return ShipResponse.builder()
-                    .shipId(ship.getShipId())
-                    .name(ship.getName())
-                    .flag(ship.getFlag())
-                    .maxLoadsNumber(ship.getMaxLoadsNumber())
-                    .maxFuelCapacity(ship.getMaxFuelCapacity())
-                    .maxKnots(ship.getMaxKnots())
-                    .latitude(ship.getLatitude())
-                    .longitude(ship.getLongitude())
-                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
-                    .build();
+        return shipRepository.findAllByShipOwner(shipowner);
     }
 }
