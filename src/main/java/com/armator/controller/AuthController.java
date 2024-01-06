@@ -39,7 +39,7 @@ public class AuthController {
         }
 
     }
-    @PostMapping("/check-token")
+    @GetMapping("/check-token")
     public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String token) {
         try{
             return ResponseEntity.ok(authenticationService.checkToken(token.substring(7)));
@@ -49,9 +49,9 @@ public class AuthController {
     }
 
     @GetMapping("/revoke-token")
-    public ResponseEntity<?> revokeToken(@RequestBody TokenReq req) {
+    public ResponseEntity<?> revokeToken(@RequestHeader("Authorization") String token) {
         try{
-            return ResponseEntity.ok(authenticationService.revokeToken(req));
+            return ResponseEntity.ok(authenticationService.revokeToken(token.substring(7)));
         } catch (SecurityException e) {
             return ResponseEntity.ok(RevokeStatus.builder().message("Token not revoked.").revoked(false).build());
         }

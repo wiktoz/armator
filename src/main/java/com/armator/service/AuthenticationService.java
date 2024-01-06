@@ -90,20 +90,16 @@ public class AuthenticationService {
                 .build();
     }
 
-    public RevokeStatus revokeToken(TokenReq req){
+    public RevokeStatus revokeToken(String req){
         final MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA3-256");
         } catch (NoSuchAlgorithmException e) {
             throw new SecurityException("Error while hashing token.");
         }
-        final byte[] hashbytes = digest.digest(req.getToken().getBytes());
+        final byte[] hashbytes = digest.digest(req.getBytes());
         String hash = new String(hashbytes);
         tokenRepository.save(RevokedToken.builder().revokedTokenDigest(hash).build());
-        ResponseCookie cookie = ResponseCookie.from("Authorization", "")
-                .httpOnly(true)
-                .path("/")
-                .build();
         return RevokeStatus.builder()
                 .message("Token revoked.")
                 .revoked(true)
