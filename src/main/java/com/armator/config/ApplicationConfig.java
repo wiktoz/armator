@@ -4,10 +4,8 @@ import com.armator.model.*;
 import com.armator.repositoriy.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,9 +13,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Set;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,6 +30,7 @@ public class ApplicationConfig {
     private final PortRepository portRepository;
     private final LoadRepository loadRepository;
     private final CustomerRepository customerRepository;
+    private final CruiseRepository cruiseRepository;
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
@@ -62,7 +62,7 @@ public class ApplicationConfig {
                 .lastname("Doe")
                 .email("test@test.com")
                 .password(passwordEncoder().encode("test"))
-                .role(SecurityRole.USER)
+                .role(SecurityRole.WORKER)
                 .build();
         var admin = User.builder()
                 .firstname("Janusz")
@@ -192,6 +192,19 @@ public class ApplicationConfig {
 
         customerRepository.save(customerA);
 
+        var cruise = Cruise.builder()
+                .startDate(java.time.LocalDate.now())
+                .endDate(java.time.LocalDate.now().plusDays(10))
+                .routeLength(100.0)
+                .loadsNumber(0)
+                .ship(ship)
+                .srcPort(portA)
+                .dstPort(portB)
+                .workers(Set.of(captainWorker, worker))
+                .build();
+
+        cruiseRepository.save(cruise);
+
         var load = Load.builder()
                 .content("Alcohol")
                 .weight(100.0)
@@ -200,9 +213,12 @@ public class ApplicationConfig {
                 .srcPortId(portA)
                 .dstPortId(portB)
                 .status("NEW")
+                .cruise(cruise)
                 .build();
 
         loadRepository.save(load);
+
+
 
 
     }

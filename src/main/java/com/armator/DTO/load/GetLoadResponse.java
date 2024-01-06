@@ -19,4 +19,5 @@ public class GetLoadResponse {
     private Integer srcPortId;
     private Integer dstPortId;
     private String status;
+    private Integer cruiseId;
 }

@@ -30,4 +30,7 @@ public class Load {
     @JoinColumn(name = "dstPortId")
     private Port dstPortId;
     private String status;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "cruiseId")
+    private Cruise cruise;
 }

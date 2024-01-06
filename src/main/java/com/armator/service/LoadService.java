@@ -19,8 +19,18 @@ public class LoadService {
     private final CustomerRepository customerRepository;
     private final JwtService jwtService;
     private final PortService portService;
-    public List<Load> getAllLoads() {
-        return loadRepository.findAll();
+    public List<GetLoadResponse> getAllLoads() {
+        var loads = loadRepository.findAll();
+        return loads.stream().map(load -> GetLoadResponse.builder()
+                .loadId(load.getLoadId())
+                .content(load.getContent())
+                .price(load.getPrice())
+                .weight(load.getWeight())
+                .customerId(load.getCustomer().getCustomerId())
+                .status(load.getStatus())
+                .srcPortId(load.getSrcPortId().getPortId())
+                .dstPortId(load.getDstPortId().getPortId())
+                .build()).toList();
     }
 
     public GetLoadResponse getLoadById(Integer id) {
