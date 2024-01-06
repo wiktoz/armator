@@ -4,7 +4,7 @@ export async function POST(req: Request, res: Response){
     const body = await req.json()
 
     cookies().set({
-        name: 'TOKEN',
+        name: 'token',
         value: body.token,
         maxAge: 60 * 60 * 1000, // one hour
         httpOnly: true,
