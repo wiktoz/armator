@@ -7,5 +7,6 @@ package com.armator.model;
 public enum SecurityRole {
     USER,
     SHIPOWNER,
-    ADMIN
+    ADMIN,
+    CUSTOMER
 }

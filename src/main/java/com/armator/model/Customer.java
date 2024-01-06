@@ -20,6 +20,7 @@ public class Customer {
     @GeneratedValue
     private Integer customerId;
     private String companyName;
+    private String email;
     private String city;
     private String street;
     private String zipCode;

@@ -28,6 +28,9 @@ public class ApplicationConfig {
     private final ShipownerRepository shipownerRepository;
     private final RoleRepository roleRepository;
     private final WorkerRepository workerRepository;
+    private final PortRepository portRepository;
+    private final LoadRepository loadRepository;
+    private final CustomerRepository customerRepository;
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
@@ -146,10 +149,60 @@ public class ApplicationConfig {
                 .user(shipowner)
                 .build();
 
+        var customer = User.builder()
+                .firstname("Jan")
+                .lastname("Kowalski")
+                .email("customer@test.com")
+                .password(passwordEncoder().encode("test"))
+                .role(SecurityRole.CUSTOMER)
+                .build();
+
+        userRepository.save(customer);
+
         workerRepository.save(worker);
         workerRepository.save(captainWorker);
 
+        var portA = Port.builder()
+                .street("Marszalkowska")
+                .city("Warsaw")
+                .zipCode("00-000")
+                .maxLoadsNumber(100)
+                .loadsNumber(0)
+                .build();
 
+        var portB = Port.builder()
+                .street("Gdanska")
+                .city("Warsaw")
+                .zipCode("00-000")
+                .maxLoadsNumber(100)
+                .loadsNumber(0)
+                .build();
+        portRepository.save(portA);
+        portRepository.save(portB);
+
+        var customerA = Customer.builder()
+                .city("Warsaw")
+                .street("Marszalkowska")
+                .zipCode("00-000")
+                .companyName("Company A")
+                .email("customer@test.com")
+                .houseNumber("1")
+                .flatNumber("1")
+                .build();
+
+        customerRepository.save(customerA);
+
+        var load = Load.builder()
+                .content("Alcohol")
+                .weight(100.0)
+                .price(100.0)
+                .customer(customerA)
+                .srcPortId(portA)
+                .dstPortId(portB)
+                .status("NEW")
+                .build();
+
+        loadRepository.save(load);
 
 
     }

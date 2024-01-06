@@ -15,7 +15,6 @@ public class CreateShipReq {
     private Integer maxLoadsNumber;
     private Integer maxFuelCapacity;
     private Integer maxKnots;
-
     private Double latitude;
     private Double longitude;
 }
