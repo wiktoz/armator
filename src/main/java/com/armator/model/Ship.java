@@ -26,7 +26,7 @@ public class Ship {
 
     private Double latitude;
     private Double longitude;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "shipOwnerId")
     private Shipowner shipOwner;
 
