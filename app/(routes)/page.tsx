@@ -8,19 +8,16 @@ import {
     LuContainer,
     LuUsers2,
     LuUser2,
-    LuServerOff,
     LuUserCog2,
     LuStar
 } from "react-icons/lu"
 
 import useSWR from "swr"
-import {fetcher, logout} from "@/lib/helpers"
-import Spinner from "@/app/_components/Spinner";
+import {fetcher} from "@/lib/helpers"
 import Accordion from "@/app/_components/Accordion";
 import Tooltip from "@/app/_components/Tooltip";
 import FetchError from "@/app/_components/errors/FetchError";
 import UsersLoader from "@/app/_components/loaders/UsersLoader";
-import {useRouter} from "next/navigation";
 
 interface Port extends Address {
     portId: number,
@@ -53,59 +50,12 @@ interface Customer extends Address {
     email: string
 }
 
-interface User {
-    id: number,
-    firstname: string,
-    lastname: string,
-    email: string,
-    role: string,
-    enabled: boolean,
-    accountNonExpired: boolean,
-    credentialsNonExpired: boolean,
-    authorities: [
-        {
-            authority: string
-        }
-    ],
-    username: string,
-    accountNonLocked: boolean
-}
-
 export default function Home(){
-    const router = useRouter()
-
-    const { data: user, error: userErr, isLoading: isUserLoading } = useSWR<User>('http://localhost:2137/api/v1/user/me', fetcher)
     const { data: users, error: usersErr, isLoading: isUsersLoading } = useSWR<User[]>('http://localhost:2137/api/v1/user/all', fetcher)
     const { data: loads, error: loadsErr, isLoading: isLoadsLoading } = useSWR<Load[]>('http://localhost:2137/api/v1/load/all', fetcher)
 
-    const loggingOut = async () => {
-        if(await logout()) router.push("/auth/signin")
-    }
-
     return(
-        <div>
-            <div className={"p-4 pb-0 text-xs"}>
-                <div className={"flex flex-row gap-1 items-center"}>
-                    <div className={"align-bottom"}>Logged in as</div>
-                    {
-                        userErr ?
-                            <div className={"text-sm font-semibold text-gray-800 flex flex-row items-center gap-1"}>
-                                <LuServerOff/>
-                                Fetch error
-                            </div>
-                            :
-                        isUserLoading ?
-                            <div>
-                                <Spinner/>
-                            </div>
-                            :
-                            <div className={"font-semibold text-sm"}>
-                                {user?.firstname} {user?.lastname} ({user?.role.toLowerCase()})
-                                <span onClick={loggingOut} className={"mx-1 font-bold"}>Logout</span>
-                            </div>
-                    }
-                </div>
-            </div>
+        <div className={"p-4"}>
             <div className={"p-4"}>
                 <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
                     <div>

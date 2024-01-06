@@ -48,7 +48,7 @@ export default function SignInPage(){
             })
 
             if(setCookie.status === 200)
-                return router.push("/map")
+                return router.push("/")
 
             setIsLoading(false)
             return setMessage("Cannot set cookie. Please enable cookie usage.")
