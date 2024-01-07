@@ -6,7 +6,7 @@ export async function POST(req: Request, res: Response){
     cookies().set({
         name: 'token',
         value: body.token,
-        maxAge: 60 * 60 * 1000, // one hour
+        maxAge: 60 * 60, // one hour
         httpOnly: true,
         path: '/',
     })

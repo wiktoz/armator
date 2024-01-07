@@ -1,42 +1,37 @@
 'use client'
 
 import dynamic from "next/dynamic"
-import {useEffect, useState} from "react";
-import axios from "axios";
-import MarkerBox from "@/app/_components/map/MarkerBox";
+import {fetcher} from "@/lib/helpers";
+import useSWR from "swr";
 
 const Map = dynamic(() => import('@/app/_components/map/Map'), {
     ssr: false
 })
 
+const MarkerBox = dynamic(() => import("@/app/_components/map/MarkerBox"), {
+    ssr: false
+})
+
 export default function ShipMap() {
-    useEffect(() => {
-        /*fetch("http://localhost:3000/api/token/get", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }).then(r => {
-            if(r.status === 200)
-                r.json().then(data => {
-                    fetch("http://localhost:2137/api/v1/user/me", {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${data.token}`,
-                            'Content-Type': 'application/json',
-                        }
-                    }).then(r => {
-                        if(r.status === 200)
-                            r.json().then(data => setUser(data))
-                    })
-                })
-        })*/
-    }, [])
+    const { data: ships, error: shipsErr, isLoading: isShipsLoading } = useSWR<Ship[]>('http://localhost:2137/api/v1/ship/all', fetcher)
 
     return (
-    <main className="min-w-screen h-[calc(100vh-96px)] overflow-hidden relative">
+    <main className="min-w-screen h-[calc(100vh-140px)] overflow-hidden relative">
         <Map>
-            <MarkerBox/>
+            <div>
+                {
+                    isShipsLoading ?
+                        <div>Loading ships...</div> :
+
+                    ships && ships.length > 0 ? ships.map((s) => {
+                        return(
+                            <div key={s.shipId}>
+                                <MarkerBox ship={s}/>
+                            </div>
+                        )
+                    }) : null
+                }
+            </div>
         </Map>
     </main>
   )

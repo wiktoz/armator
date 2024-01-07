@@ -17,6 +17,7 @@ export default function SignInPage(){
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const router = useRouter()
 
@@ -37,29 +38,39 @@ export default function SignInPage(){
         })
 
         if(response.status === 200){
-            //setting token to cookie
             const data = await response.json()
-            const setCookie = await fetch("http://localhost:3000/api/token/set", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({token: data.token})
-            })
 
-            if(setCookie.status === 200)
-                return router.push("/")
+            if(data?.token){
+                const setCookie = await fetch("http://localhost:3000/api/token/set", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({token: data.token})
+                })
+
+                if(setCookie.status === 200){
+                    setSuccess(true)
+                    setMessage("Successfully signed in. Redirecting...")
+                    return setTimeout(() => {
+                        return router.push("/")
+                    }, 500)
+                }
+
+                setIsLoading(false)
+                return setMessage("Cannot set cookie. Please enable cookie usage.")
+            }
 
             setIsLoading(false)
-            return setMessage("Cannot set cookie. Please enable cookie usage.")
+            return setMessage(data.message)
         }
 
         setIsLoading(false)
-        return setMessage("Incorrect data")
+        return setMessage("Fetch error. Cannot connect to API.")
     }
 
     return(
-        <div className={"flex w-full justify-center my-10"}>
+        <div className={"flex w-full justify-center my-12"}>
             <div className={"w-2/3 md:w-1/3"}>
                 <div className={"font-bold text-2xl mb-4"}>
                     Sign In
@@ -84,7 +95,7 @@ export default function SignInPage(){
                        setter={setPassword}
                 />
                 { message ?
-                    <div className={"text-xs text-red-600"}>
+                    <div className={"text-xs " + ( success ? "text-green-600" : "text-red-600")}>
                         {message}
                     </div>
                     : null

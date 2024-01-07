@@ -7,13 +7,15 @@ import {ReactElement, useLayoutEffect, useState} from "react";
 import Spinner from "@/app/_components/Spinner";
 
 const MAP_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
-const MAP_ATTRIBUTION = '&copy; wiktoz, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+const MAP_ATTRIBUTION = ''
 
 type Props = {
-    children?: ReactElement | string
+    children?: string | ReactElement
+    center: [number, number]
+    className: string
 }
 
-const Map = ({children}: Props) => {
+const SmallMap = ({children, center, className}: Props) => {
     const [unmountMap, setUnmountMap] = useState(false);
 
     useLayoutEffect(() => {
@@ -24,16 +26,17 @@ const Map = ({children}: Props) => {
     }, [])
 
     return(
-        <div className={"min-w-screen h-[calc(100vh-140px)] relative top-0 left-0"}>
+        <div className={className}>
             {
                 !unmountMap ?
-                    <MapContainer center={[52.235, 21.010]} zoom={5} scrollWheelZoom={true} className="h-[calc(100vh-140px)] min-w-screen">
-                        <TileLayer
-                            url={MAP_URL}
-                            attribution={MAP_ATTRIBUTION}
-                        />
-                        {children}
-                    </MapContainer> :
+
+                <MapContainer center={center} zoom={5} scrollWheelZoom={true} zoomControl={false} className="w-full h-full">
+                    <TileLayer
+                        url={MAP_URL}
+                        attribution={MAP_ATTRIBUTION}
+                    />
+                    {children}
+                </MapContainer> :
                     <div className={"flex items-center justify-center"}>
                         <Spinner/>
                     </div>
@@ -42,4 +45,4 @@ const Map = ({children}: Props) => {
     )
 }
 
-export default Map
+export default SmallMap

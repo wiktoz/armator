@@ -1,43 +1,55 @@
 import * as ReactLeaflet from 'react-leaflet'
-import Icon from './Icon'
 import L from 'leaflet'
-import {useEffect} from "react";
-
-import { createRoot } from 'react-dom/client';
-import { flushSync } from 'react-dom';
-
-const div = document.createElement('div');
-const root = createRoot(div);
-flushSync(() => {
-  root.render(<Icon />);
-});
+import Flag from "react-world-flags";
+import {getCountryCode} from "@/lib/countries";
+import {LuMap} from "react-icons/lu"
 
 const { Marker, Popup } = ReactLeaflet
 
-const MarkerBox = () => {
-  const position:[number,number] = [28.672497, -53.938854]
+interface Props {
+  ship: Ship
+}
 
+const MarkerBox = ({ship}:Props) => {
   const icon = L.divIcon({
     className: 'custom-icon',
-    html: div.innerHTML
+    html: "<img src='/img/cargo.svg' alt='ship'/>"
   })
 
-  /*const parseDate = (date) => {
-    return ((Date.now() - Date.parse(date)) / 1000).toFixed(0)
-  }*/
+  const printCoordinates = (lat:number, long:number) => {
+    let vert: string
+    let hor: string
+
+    if(lat > 0) vert = "N"
+    else vert = "S"
+
+    if(long > 0) hor = "E"
+    else hor = "W"
+
+    return Math.abs(lat).toFixed(3) + "°" + vert + ", " + Math.abs(long).toFixed(3) + "°" + hor
+  }
 
   return(
     <>
     {
-      <Marker position={position} icon={icon}>
-        <Popup>
-          <div className='font-semibold text-sm'>
-            <p><span className='text-xs font-normal'>long</span> {position[0]}</p>
-            <p><span className='text-xs font-normal'>lat</span> {position[1]}</p>
+      <Marker position={[ship.latitude, ship.longitude]} icon={icon}>
+        <Popup className={"rounded-lg"}>
+          <div className={"flex flex-col w-32 text-sm my-2 gap-2"}>
+            <div className={"flex flex-row gap-1 items-center"}>
+              <Flag className={"rounded w-4"} code={getCountryCode(ship.flag)} />
+              <div className={"text-md font-semibold leading-4"}>{ship.name}</div>
+              <div className={"m-0 text-xs"}>{getCountryCode(ship.flag).toUpperCase()}</div>
+            </div>
+            <div className={"flex flex-col"}>
+              <div className={"text-xs font-bold"}>coordinates</div>
+              <div className={"flex flex-row gap-1 items-center"}>
+                <LuMap/>
+                <div className={"text-xs"}>
+                  {printCoordinates(ship.latitude, ship.longitude)}
+                </div>
+              </div>
+            </div>
           </div>
-          <p className='text-xs'>
-            10s ago
-          </p>
         </Popup>
       </Marker>
     }

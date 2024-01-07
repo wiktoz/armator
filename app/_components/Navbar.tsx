@@ -4,15 +4,25 @@ import {LuServerOff, LuShip, LuLogOut} from "react-icons/lu"
 import useSWR from "swr";
 import {fetcher, logout} from "@/lib/helpers";
 import Spinner from "@/app/_components/Spinner";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import Link from "next/link";
+import {useEffect} from "react";
 
 export default function Navbar(){
     const router = useRouter()
-    const { data: user, error: userErr, isLoading: isUserLoading } = useSWR<User>('http://localhost:2137/api/v1/user/me', fetcher)
+    const pathname = usePathname()
+    const { data: user, error: userErr, isLoading: isUserLoading, mutate } =
+        useSWR<User>('http://localhost:2137/api/v1/user/me', fetcher)
+
+    useEffect(() => {
+        mutate()
+    },[mutate, pathname])
+
 
     const loggingOut = async () => {
-        if(await logout()) router.push("/auth/signin")
+        if(await logout()){
+            router.push("/auth/signin")
+        }
     }
 
     return(
@@ -52,9 +62,9 @@ export default function Navbar(){
                                             {user?.firstname} {user?.lastname} ({user?.role.toLowerCase()})
                                         </div>
                                     </div>
-                                    <div onClick={loggingOut} className={"flex flex-row justify-end gap-1 items-center hover:cursor-pointer"}>
-                                        <LuLogOut/>
-                                        <p className={"font-normal"}>Logout</p>
+                                    <div className={"flex flex-row justify-end gap-1 items-center"}>
+                                        <LuLogOut onClick={loggingOut} className={"hover:cursor-pointer"} />
+                                        <p className={"font-normal hover:cursor-pointer"} onClick={loggingOut}>Logout</p>
                                     </div>
                                 </div>
                             }

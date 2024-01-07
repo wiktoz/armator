@@ -3,14 +3,16 @@ import {isTokenValid, getTokenPayload} from "@/lib/helpers";
 
 export async function middleware(req: NextRequest) {
     if(req.nextUrl.pathname.startsWith('/auth')){
-        if(!req.cookies.has('token')) return
+        if(!req.cookies.has('token')) return NextResponse.next()
 
         const token = req.cookies.get('token') || {value: ""}
 
         const validToken = await isTokenValid(token.value)
 
-        if(!validToken)
-            return req.cookies.delete('token')
+        if(!validToken){
+            req.cookies.delete('token')
+            return NextResponse.next()
+        }
 
         return NextResponse.redirect("http://localhost:3000/")
     }
