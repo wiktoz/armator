@@ -3,9 +3,11 @@ package com.armator.service;
 import com.armator.DTO.auth.*;
 import com.armator.exceptions.SecurityException;
 import com.armator.exceptions.UserAlreadyExistsException;
+import com.armator.exceptions.WeakPasswordException;
 import com.armator.model.*;
 import com.armator.repositoriy.TokenRepository;
 import com.armator.repositoriy.UserRepository;
+import com.armator.security.PasswordSecurityHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +39,9 @@ public class AuthenticationService {
     public RegisterMessage register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("This user already exists!");
+        }
+        if (PasswordSecurityHandler.isOnBlacklist(request.getPassword()) && PasswordSecurityHandler.isPasswordLengthValid(request.getPassword())) {
+            throw new WeakPasswordException( "Password is too weak.");
         }
         var user = User.builder()
                 .firstname(request.getFirstname())

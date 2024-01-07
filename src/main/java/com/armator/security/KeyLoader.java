@@ -15,9 +15,8 @@ public class KeyLoader {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("keystore")) {
             return new String(inputStream.readAllBytes());
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public void createKeystoreFile(){
@@ -29,7 +28,7 @@ public class KeyLoader {
             try {
                 file.createNewFile();
             } catch (Exception e) {
-                e.printStackTrace();
+                return;
             }
         } else {
             System.out.println("File already exists");
@@ -57,7 +56,7 @@ public class KeyLoader {
             pw.println(new BigInteger(1, key).toString(16));
             pw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            return;
         }
     }
 
