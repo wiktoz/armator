@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic"
 import {fetcher} from "@/lib/helpers";
 import useSWR from "swr";
+import FetchError from "@/app/_components/errors/FetchError";
 
 const Map = dynamic(() => import('@/app/_components/map/Map'), {
     ssr: false
@@ -22,6 +23,9 @@ export default function ShipMap() {
                 {
                     isShipsLoading ?
                         <div>Loading ships...</div> :
+                    shipsErr ?
+                        <FetchError message={"Cannot fetch ships."}/>
+                        :
 
                     ships && ships.length > 0 ? ships.map((s) => {
                         return(
