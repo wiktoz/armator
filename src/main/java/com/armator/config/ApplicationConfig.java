@@ -96,11 +96,37 @@ public class ApplicationConfig {
                 .maxKnots(100)
                 .maxFuelCapacity(100)
                 .maxLoadsNumber(100)
-                .longitude(56.0)
-                .latitude(56.0)
+                .longitude(20.5)
+                .latitude(39.0)
                 .build();
 
         shipRepository.save(ship);
+
+        var ship2 = Ship.builder()
+                .name("Titan")
+                .shipOwner(shipOwner)
+                .flag("USA")
+                .maxKnots(200)
+                .maxFuelCapacity(200)
+                .maxLoadsNumber(200)
+                .longitude(4.0)
+                .latitude(39.0)
+                .build();
+
+        shipRepository.save(ship2);
+
+        var ship3 = Ship.builder()
+                .name("ORP Jerzy Popiełuszko")
+                .shipOwner(shipOwner)
+                .flag("Poland")
+                .maxKnots(2137)
+                .maxFuelCapacity(2137)
+                .maxLoadsNumber(2137)
+                .latitude(54.9)
+                .longitude(18.3)
+                .build();
+
+        shipRepository.save(ship3);
 
         var mechanic = Role.builder()
                 .name("Mechanic")

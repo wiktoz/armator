@@ -26,6 +26,8 @@ public class AuthController {
             return ResponseEntity.ok(authenticationService.register(request));
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.ok(RegisterMessage.builder().message("This user already exists!").registered(false).build());
+        } catch (SecurityException e) {
+            return ResponseEntity.ok(RegisterMessage.builder().message("Password is too weak.").registered(false).build());
         }
 
     }
