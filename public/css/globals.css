@@ -20,3 +20,7 @@
   background: #1B262C !important;
   color: #fff !important;
 }
+
+.front{
+  z-index:1000 !important;
+}

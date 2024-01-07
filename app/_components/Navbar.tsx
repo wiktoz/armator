@@ -59,7 +59,9 @@ export default function Navbar(){
                                             Logged in as
                                         </div>
                                         <div className={"font-semibold"}>
-                                            {user?.firstname} {user?.lastname} ({user?.role.toLowerCase()})
+                                            <Link href={"/user"}>
+                                                {user?.firstname} {user?.lastname} ({user?.role.toLowerCase()})
+                                            </Link>
                                         </div>
                                     </div>
                                     <div className={"flex flex-row justify-end gap-1 items-center"}>

@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.next()
         }
 
-        return NextResponse.redirect("http://localhost:3000/")
+        return NextResponse.redirect("http://localhost:3000/user")
     }
 
 
@@ -35,8 +35,8 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect("http://localhost:3000/auth/signin")
         }
 
-        if (payload.role.toLowerCase() !== "admin")
-            return NextResponse.redirect("http://localhost:3000/")
+        if (payload.role.toLowerCase() !== "admin" && payload.role.toLowerCase() !== "shipowner")
+            return NextResponse.redirect("http://localhost:3000/user")
     }
 
 

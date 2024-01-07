@@ -29,44 +29,47 @@ export default function SignInPage(){
 
     const handleSignIn = async (data: SignInData) => {
         setIsLoading(true)
-        const response = await fetch("http://localhost:2137/api/v1/auth/login",{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email: data.email, password: data.password})
-        })
 
-        if(response.status === 200){
-            const data = await response.json()
+        try {
+            const response = await fetch("http://localhost:2137/api/v1/auth/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: data.email, password: data.password})
+            })
 
-            if(data?.token){
-                const setCookie = await fetch("http://localhost:3000/api/token/set", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({token: data.token})
-                })
+            if (response.status === 200) {
+                const data = await response.json()
 
-                if(setCookie.status === 200){
-                    setSuccess(true)
-                    setMessage("Successfully signed in. Redirecting...")
-                    return setTimeout(() => {
-                        return router.push("/")
-                    }, 500)
+                if (data?.token) {
+                    const setCookie = await fetch("http://localhost:3000/api/token/set", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({token: data.token})
+                    })
+
+                    if (setCookie.status === 200) {
+                        setSuccess(true)
+                        setMessage("Successfully signed in. Redirecting...")
+                        return setTimeout(() => {
+                            return router.push("/user")
+                        }, 500)
+                    }
+
+                    setIsLoading(false)
+                    return setMessage("Cannot set cookie. Please enable cookie usage.")
                 }
 
                 setIsLoading(false)
-                return setMessage("Cannot set cookie. Please enable cookie usage.")
+                return setMessage(data.message)
             }
-
+        } catch (err){
             setIsLoading(false)
-            return setMessage(data.message)
+            return setMessage("Fetch error. Cannot connect to API.")
         }
-
-        setIsLoading(false)
-        return setMessage("Fetch error. Cannot connect to API.")
     }
 
     return(

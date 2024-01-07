@@ -19,12 +19,15 @@ export default function ShipMap() {
     return (
     <main className="min-w-screen h-[calc(100vh-140px)] overflow-hidden relative">
         <Map>
-            <div>
+            <>
                 {
                     isShipsLoading ?
-                        <div>Loading ships...</div> :
+                        <div className={"fixed top-0 left-0 z-30"}>Loading ships...</div> :
                     shipsErr ?
-                        <FetchError message={"Cannot fetch ships."}/>
+                        <div className={"fixed top-0 left-0 z-30"}>
+                            <FetchError message={"Cannot fetch ships."}/>
+                        </div>
+
                         :
 
                     ships && ships.length > 0 ? ships.map((s) => {
@@ -33,9 +36,14 @@ export default function ShipMap() {
                                 <MarkerBox ship={s}/>
                             </div>
                         )
-                    }) : null
+                    }) :
+                        <div className={"flex items-center justify-center fixed top-0 left-0 front w-screen h-screen"}>
+                            <div className={"p-4 bg-white border border-primary rounded-lg"}>
+                                <FetchError message={"Cannot fetch ships."}/>
+                            </div>
+                        </div>
                 }
-            </div>
+            </>
         </Map>
     </main>
   )

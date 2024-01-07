@@ -11,7 +11,7 @@ interface InputParams {
     autoComplete?: boolean,
     errors: { [key: string]: { message?: string } },
     checker: UseFormRegister<any>,
-    setter: (value: string) => void
+    setter?: (value: string) => void
 }
 
 const Input = ({id, title, type, value, autoComplete, errors, checker, setter} : InputParams) => {
@@ -19,7 +19,7 @@ const Input = ({id, title, type, value, autoComplete, errors, checker, setter} :
 
     return (
         <div className="w-full">
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+            <label htmlFor={id} className="block text-xs font-bold text-gray-800">
                 {title}
             </label>
             <input

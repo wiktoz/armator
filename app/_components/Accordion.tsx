@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {VscChevronRight} from 'react-icons/vsc'
 
 interface Props {
-  title: string,
+  title: string | ReactElement,
   children?: ReactElement
 }
 
@@ -18,7 +18,7 @@ const Accordion = ({ title, children}:Props) => {
           className="relative flex flex-row items-center justify-left text-xs hover:cursor-pointer transition-all z-20"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <p className="font-bold">{title}</p>
+          {title}
           <motion.div 
           animate={{
             rotate: isOpen ? 90 : 0
@@ -31,7 +31,6 @@ const Accordion = ({ title, children}:Props) => {
 
         {isOpen && (
                     <motion.div
-                        key={title}
                         initial={{ opacity: 0, height:0, y:-30 }}
                         animate={{
                         opacity: 1,

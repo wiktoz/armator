@@ -47,19 +47,24 @@ export const logout = async () => {
 export const isTokenValid = async (token:string) => {
     if(!token) return false
 
-    const checkValidity = await fetch("http://localhost:2137/api/v1/auth/check-token", {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        }
-    })
+    try {
+        const checkValidity = await fetch("http://localhost:2137/api/v1/auth/check-token", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
 
-    if(checkValidity.status !== 200) return false
+        if(checkValidity.status !== 200) return false
 
-    const response = await checkValidity.json()
+        const response = await checkValidity.json()
 
-    return response.authenticated;
+        return response.authenticated;
+
+    } catch (err){
+        if(err) return false
+    }
 }
 
 export const getTokenPayload = async (token:string) => {
