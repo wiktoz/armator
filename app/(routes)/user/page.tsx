@@ -2,13 +2,11 @@
 
 import useSWR from "swr";
 import {fetcher} from "@/lib/helpers";
-import Accordion from "@/app/_components/Accordion";
 import {LuArrowRight, LuChevronRight} from "react-icons/lu"
 import {useState} from "react";
 import EditPersonalData from "@/app/_components/user/EditPersonalData";
 import EditAddress from "@/app/_components/user/EditAddress";
 import Link from "next/link";
-import Spinner from "@/app/_components/Spinner";
 import FetchError from "@/app/_components/errors/FetchError";
 import UsersLoader from "@/app/_components/loaders/UsersLoader";
 
