@@ -53,7 +53,7 @@ public class KeyLoader {
         return values;
     }
     private void saveKeyToFile(byte[] key){
-        try (PrintWriter pw = new PrintWriter("target\\classes\\keystore.test")) {
+        try (PrintWriter pw = new PrintWriter("target\\classes\\keystore")) {
             pw.println(new BigInteger(1, key).toString(16));
             pw.close();
         } catch (Exception e) {
