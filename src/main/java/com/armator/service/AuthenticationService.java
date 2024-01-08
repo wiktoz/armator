@@ -62,6 +62,32 @@ public class AuthenticationService {
                 .build();
     }
 
+    public RegisterMessage registerCustomer(CustomerRegisterRequest req){
+        if (userRepository.findByEmail(req.getEmail()).isPresent()){
+            throw new UserAlreadyExistsException("This user already exists!");
+        }
+        if (PasswordSecurityHandler.isOnBlacklist(req.getPassword()) && PasswordSecurityHandler.isPasswordLengthValid(req.getPassword())) {
+            throw new WeakPasswordException("Password is too weak.");
+        }
+        var user = User.builder()
+                .firstname(req.getFirstname())
+                .lastname(req.getLastname())
+                .email(req.getEmail())
+                .password(passwordEncoder.encode(req.getPassword()))
+                .role(SecurityRole.CUSTOMER)
+                .city(req.getCity())
+                .street(req.getStreet())
+                .zipCode(req.getZipCode())
+                .houseNumber(req.getHouseNumber())
+                .flatNumber(req.getFlatNumber())
+                .build();
+        userRepository.save(user);
+        return RegisterMessage.builder()
+                .message("User registered successfully")
+                .registered(true)
+                .build();
+    }
+
     public AuthResponse login(AuthenticationRequest request, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

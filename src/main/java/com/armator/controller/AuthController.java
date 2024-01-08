@@ -59,5 +59,17 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/customer/register")
+    public ResponseEntity<?> registerCustomer(@RequestBody CustomerRegisterRequest request) {
+        try{
+            return ResponseEntity.ok(authenticationService.registerCustomer(request));
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.ok(RegisterMessage.builder().message("This user already exists!").registered(false).build());
+        } catch (SecurityException e) {
+            return ResponseEntity.ok(RegisterMessage.builder().message("Password is too weak.").registered(false).build());
+        }
+
+    }
+
 
 }
