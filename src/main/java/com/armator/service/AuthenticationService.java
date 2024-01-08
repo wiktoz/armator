@@ -41,7 +41,7 @@ public class AuthenticationService {
             throw new UserAlreadyExistsException("This user already exists!");
         }
         if (PasswordSecurityHandler.isOnBlacklist(request.getPassword()) && PasswordSecurityHandler.isPasswordLengthValid(request.getPassword())) {
-            throw new WeakPasswordException( "Password is too weak.");
+            throw new WeakPasswordException("Password is too weak.");
         }
         var user = User.builder()
                 .firstname(request.getFirstname())
@@ -49,6 +49,11 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
+                .city(request.getCity())
+                .street(request.getStreet())
+                .zipCode(request.getZipCode())
+                .houseNumber(request.getHouseNumber())
+                .flatNumber(request.getFlatNumber())
                 .build();
         userRepository.save(user);
         return RegisterMessage.builder()

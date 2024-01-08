@@ -33,6 +33,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private SecurityRole role;
 
+    private String city;
+    private String street;
+    private String zipCode;
+    private String houseNumber;
+    private String flatNumber;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

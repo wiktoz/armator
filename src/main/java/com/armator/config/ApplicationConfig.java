@@ -63,6 +63,11 @@ public class ApplicationConfig {
                 .email("test@test.com")
                 .password(passwordEncoder().encode("test"))
                 .role(SecurityRole.WORKER)
+                .city("Warsaw")
+                .street("Marszalkowska")
+                .zipCode("00-000")
+                .houseNumber("1")
+                .flatNumber("1")
                 .build();
         var admin = User.builder()
                 .firstname("Janusz")
@@ -70,6 +75,11 @@ public class ApplicationConfig {
                 .email("admin@test.com")
                 .password(passwordEncoder().encode("test"))
                 .role(SecurityRole.ADMIN)
+                .city("Plebania")
+                .street("Janusza Pawulona II")
+                .zipCode("21-370")
+                .houseNumber("1")
+                .flatNumber("1")
                 .build();
         var shipowner = User.builder()
                 .firstname("Piotr")
@@ -77,6 +87,11 @@ public class ApplicationConfig {
                 .email("piotr@test.com")
                 .password(passwordEncoder().encode("birdisaword"))
                 .role(SecurityRole.SHIPOWNER)
+                .city("Quahog")
+                .street("Setha MacFarlanea")
+                .zipCode("21-370")
+                .houseNumber("1")
+                .flatNumber("1")
                 .build();
 
         userRepository.save(user);
@@ -181,6 +196,11 @@ public class ApplicationConfig {
                 .email("customer@test.com")
                 .password(passwordEncoder().encode("test"))
                 .role(SecurityRole.CUSTOMER)
+                .city("Choroszcz")
+                .street("Kowalska")
+                .zipCode("04-200")
+                .houseNumber("12")
+                .flatNumber("14")
                 .build();
 
         userRepository.save(customer);
