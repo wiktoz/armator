@@ -41,4 +41,9 @@ public class UserController {
     public ResponseEntity<User> getMe(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(userService.getMe(token));
     }
+
+    @PutMapping("/me")
+    public ResponseEntity<User> updateMe(@RequestHeader("Authorization") String token, @RequestBody UpdateUser req) {
+        return ResponseEntity.ok(userService.updateMe(token, req));
+    }
 }

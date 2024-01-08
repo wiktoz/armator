@@ -35,6 +35,23 @@ public class UserService {
         if(Objects.nonNull(req.getEmail())) {
             user.setEmail(req.getEmail());
         }
+        if(Objects.nonNull(req.getCity())) {
+            user.setCity(req.getCity());
+        }
+        if(Objects.nonNull(req.getStreet())) {
+            user.setStreet(req.getStreet());
+        }
+        if(Objects.nonNull(req.getZipCode())) {
+            user.setZipCode(req.getZipCode());
+        }
+        if(Objects.nonNull(req.getHouseNumber())) {
+            user.setHouseNumber(req.getHouseNumber());
+        }
+        if(Objects.nonNull(req.getFlatNumber())) {
+            user.setFlatNumber(req.getFlatNumber());
+        }
+
+
 
         userRepository.save(user);
 
@@ -53,5 +70,10 @@ public class UserService {
     public User getMe(String token) {
         var email = jwtService.extractEmail(token.substring(7));
         return userRepository.findByEmail(email).orElseThrow( () -> new RuntimeException("User not found"));
+    }
+
+    public User updateMe(String token, UpdateUser req) {
+        var user = userRepository.findByEmail(jwtService.extractEmail(token.substring(7))).orElseThrow( () -> new RuntimeException("User not found"));
+        return updateUser(user.getId(), req);
     }
 }
