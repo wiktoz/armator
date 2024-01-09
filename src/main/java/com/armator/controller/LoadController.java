@@ -5,6 +5,7 @@ import com.armator.DTO.load.CreateLoadReq;
 import com.armator.service.LoadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,7 +20,7 @@ public class LoadController {
         return ResponseEntity.ok(loadService.getAllLoads());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<?> getLoadById(@PathVariable Integer id){
         return ResponseEntity.ok(loadService.getLoadById(id));
     }
@@ -33,4 +34,12 @@ public class LoadController {
     public ResponseEntity<?> getMyLoads(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(loadService.getMyLoads(token));
     }
+
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getLoadsByUserId(@PathVariable Integer id){
+        return ResponseEntity.ok(loadService.getLoadsByUserId(id));
+    }
+
+
 }
