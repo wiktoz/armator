@@ -28,4 +28,9 @@ public class LoadController {
     public ResponseEntity<?> createLoad(@RequestBody CreateLoadReq req, @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(loadService.createLoad(req,token));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyLoads(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(loadService.getMyLoads(token));
+    }
 }

@@ -255,14 +255,27 @@ public class ApplicationConfig {
                 .content("Alcohol")
                 .weight(100.0)
                 .price(100.0)
-                .customer(customerA)
+                .user(customer)
                 .srcPortId(portA)
                 .dstPortId(portB)
                 .status("NEW")
                 .cruise(cruise)
                 .build();
 
+        var load2 = Load.builder()
+                .content("AAAPI Javy")
+                .weight(300.0)
+                .price(400.0)
+                .user(customer)
+                .srcPortId(portA)
+                .dstPortId(portB)
+                .status("NEW")
+                .cruise(cruise)
+                .build();
+
+
         loadRepository.save(load);
+        loadRepository.save(load2);
 
 
 

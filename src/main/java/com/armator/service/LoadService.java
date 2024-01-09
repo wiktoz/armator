@@ -7,6 +7,7 @@ import com.armator.exceptions.NoSuchLoadException;
 import com.armator.model.Load;
 import com.armator.repositoriy.CustomerRepository;
 import com.armator.repositoriy.LoadRepository;
+import com.armator.repositoriy.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LoadService {
     private final LoadRepository loadRepository;
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PortService portService;
     public List<Load> getAllLoads() {
@@ -28,9 +29,9 @@ public class LoadService {
     }
 
     public Load createLoad(CreateLoadReq req, String token) {
-        var customer = customerRepository.findCustomerByEmail(jwtService.extractEmail(token.substring(7))).orElseThrow(() -> new RuntimeException("Customer not found"));
+        var customer = userRepository.findByEmail(jwtService.extractEmail(token.substring(7))).orElseThrow(() -> new RuntimeException("Customer not found"));
         return loadRepository.save(Load.builder()
-                .customer(customer)
+                .user(customer)
                 .content(req.getContent())
                 .price(req.getPrice())
                 .weight(req.getWeight())
@@ -38,5 +39,10 @@ public class LoadService {
                 .srcPortId(portService.getPort(req.getSrcPortId()))
                 .dstPortId(portService.getPort(req.getDstPortId()))
                 .build());
+    }
+
+    public List<Load> getMyLoads(String token) {
+        var customer = userRepository.findByEmail(jwtService.extractEmail(token.substring(7))).orElseThrow(() -> new RuntimeException("Customer not found"));
+        return loadRepository.findAllByUser(customer);
     }
 }

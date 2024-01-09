@@ -22,7 +22,7 @@ public class Load {
     private Double price;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "customerId")
-    private Customer customer;
+    private User user;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "srcPortId")
     private Port srcPortId;
