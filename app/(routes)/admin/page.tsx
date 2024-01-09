@@ -23,6 +23,8 @@ import {getCountryCode} from "@/lib/countries";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Spinner from "@/app/_components/Spinner";
+import Load from "@/app/_components/Load";
+import LoadsContainer from "@/app/_components/LoadsContainer";
 
 const MarkerBox = dynamic(() => import('@/app/_components/map/MarkerBox'), {
     ssr: false,
@@ -39,8 +41,8 @@ export default function Home(){
     const { data: ships, error: shipsErr, isLoading: isShipsLoading } = useSWR<Ship[]>('http://localhost:2137/api/v1/ship/all', fetcher)
 
     return(
-        <div className={"p-4"}>
-            <div className={"p-4"}>
+        <div className={"p-8 flex flex-col gap-8"}>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
                 <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
                     <div>
                         <LuUsers2 size={"1.5em"} className={"h-full"} />
@@ -49,7 +51,7 @@ export default function Home(){
                         Users
                     </div>
                 </div>
-                <div className={"flex flex-col gap-1 mx-4"}>
+                <div className={"flex flex-col gap-1"}>
                     {
                         usersErr ?
                             <FetchError message={"Cannot find API endpoint. Try again later."}/> :
@@ -65,7 +67,7 @@ export default function Home(){
                             users.length > 0 && users.map(u => {
                                 return(
                                     <div key={u.id} className={"rounded-lg border border-primary"}>
-                                        <div className={"flex flex-row gap-2"}>
+                                        <div className={"flex flex-row h-full w-full gap-2"}>
                                             <div className={"flex items-center text-xl text-white bg-primary rounded-l-lg px-4"}>
                                                 {
                                                     u.role.toLowerCase() === "admin" ?
@@ -93,7 +95,7 @@ export default function Home(){
                     }
                 </div>
             </div>
-            <div className={"p-4"}>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
                 <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
                     <div>
                         <LuContainer size={"1.5em"} className={"h-full"} />
@@ -102,93 +104,9 @@ export default function Home(){
                         Loads
                     </div>
                 </div>
-                <div className={"flex flex-col gap-1 mx-4"}>
-                    {
-                        loadsErr ?
-                            <FetchError message={"Cannot find API endpoint. Try again later."}/> :
-
-                        isLoadsLoading ?
-                            <UsersLoader/> :
-
-                        !loads ?
-                            <FetchError message={"Authentication error. You have no permission to read this data."}/> :
-
-                        <div className={"grid md:grid-cols-2 gap-2"}>
-                            {
-                                loads && loads.length > 0 && loads.map(l => {
-                                    return(
-                                        <div key={l.loadId} className={"rounded-lg border border-primary"}>
-                                            <div className={"flex flex-row gap-2"}>
-                                                <div className={"flex items-center text-white bg-primary rounded-l-lg px-4"}>
-                                                    <LuBox className={"text-xl"}/>
-                                                </div>
-                                                <div className={"grow mx-4 p-4"}>
-                                                    <div className={"grid grid-cols-3 gap-2"}>
-                                                        <div className={"flex flex-col col-span-3"}>
-                                                            <Accordion title={"customer"}>
-                                                                <div className={"flex flex-col gap-2"}>
-                                                                    <div className={"font-semibold"}>
-                                                                        {l.customer.companyName}
-                                                                    </div>
-                                                                    <div className={"flex flex-row items-center text-sm gap-2"}>
-                                                                        <LuMail className={"text-xs"}/>
-                                                                        <p>{l.customer.email}</p>
-                                                                    </div>
-                                                                    <div className={"flex flex-row items-center text-sm gap-2"}>
-                                                                        <LuMapPin className={"text-xs"}/>
-                                                                        <div>
-                                                                            <p>{l.customer.street} {l.customer.houseNumber}/{l.customer.flatNumber}</p>
-                                                                            <p>{l.customer.zipCode} {l.customer.city}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </Accordion>
-                                                        </div>
-
-                                                        <div className={"col-span-2"}>
-                                                            <hr className="h-[0.5px] my-1 bg-gray-500 border-0"/>
-                                                        </div>
-                                                        <div></div>
-
-                                                        <div className={"flex flex-col"}>
-                                                            <div className={"text-xs font-bold"}>content</div>
-                                                            <div className={"text-sm"}>{l.content}</div>
-                                                        </div>
-                                                        <div className={"flex flex-col"}>
-                                                            <div className={"text-xs font-bold"}>weight</div>
-                                                            <div className={"text-sm"}>
-                                                                {l.weight}
-                                                                <span className={"text-xs ml-0.5"}>kg</span>
-                                                            </div>
-                                                        </div>
-                                                        <div></div>
-
-                                                        <div className={"flex flex-col"}>
-                                                            <div className={"text-xs font-bold"}>from</div>
-                                                            <div className={"text-sm"}>{l.srcPortId.city}</div>
-                                                        </div>
-                                                        <div className={"flex flex-col"}>
-                                                            <div className={"text-xs font-bold"}>to</div>
-                                                            <div className={"text-sm"}>{l.dstPortId.city}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span
-                                                        className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">
-                                                        {l.status.toLowerCase()}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    }
-                </div>
+                <LoadsContainer loads={loads} isLoadsLoading={isLoadsLoading} loadsErr={loadsErr}/>
             </div>
-            <div className={"p-4"}>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
                 <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
                     <div>
                         <LuShip size={"1.5em"} className={"h-full"} />
@@ -202,7 +120,7 @@ export default function Home(){
                         </Link>
                     </div>
                 </div>
-                <div className={"flex flex-col gap-1 mx-4"}>
+                <div className={"flex flex-col gap-1"}>
                     {
                         shipsErr ?
                             <FetchError message={"Cannot find API endpoint. Try again later."}/> :
@@ -213,7 +131,7 @@ export default function Home(){
                         !ships ?
                             <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                        <div className={"grid md:grid-cols-2 gap-2"}>
+                        <div className={"grid md:grid-cols-1 gap-2"}>
                             {
                                 ships && ships.length > 0 && ships.map(s => {
                                     return (

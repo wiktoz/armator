@@ -1,4 +1,4 @@
-interface User {
+interface User extends Address{
     id: number,
     firstname: string,
     lastname: string,
@@ -42,7 +42,7 @@ interface Load {
     content: string,
     weight: number,
     price: number,
-    customer: Customer,
+    user: User,
     srcPortId: Port,
     dstPortId: Port,
     status: string
@@ -54,10 +54,4 @@ interface Address {
     zipCode: string,
     houseNumber?: string,
     flatNumber?: string
-}
-
-interface Customer extends Address {
-    id: number,
-    companyName: string,
-    email: string
 }

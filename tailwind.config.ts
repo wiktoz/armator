@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         'primary': '#1B262C',
-        'secondary': '#0F4C75'
+        'secondary': '#eff3f5'
       },
       fontFamily: {
         sans: ['"Open Sans"', 'sans-serif']

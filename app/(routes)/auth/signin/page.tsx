@@ -74,43 +74,43 @@ export default function SignInPage(){
 
     return(
         <div className={"flex w-full justify-center my-12"}>
-            <div className={"w-2/3 md:w-1/3"}>
-                <div className={"font-bold text-2xl mb-4"}>
+            <div className={"w-2/3 md:w-1/3 rounded-2xl shadow bg-white p-8 py-12"}>
+                <div className={"font-bold text-2xl mb-8"}>
                     Sign In
                 </div>
-            <form onSubmit={handleSubmit(handleSignIn)}>
-                <Input id={"email"}
-                       title={"email"}
-                       type={"text"}
-                       autoComplete={true}
-                       value={email}
-                       errors={errors}
-                       checker={register}
-                       setter={setEmail}
-                />
-                <Input id={"password"}
-                       title={"password"}
-                       type={"password"}
-                       autoComplete={true}
-                       value={password}
-                       errors={errors}
-                       checker={register}
-                       setter={setPassword}
-                />
-                { message ?
-                    <div className={"text-xs " + ( success ? "text-green-600" : "text-red-600")}>
-                        {message}
-                    </div>
-                    : null
-                }
-                <button className={"w-full bg-primary p-2 text-white rounded-lg text-sm mt-2"}>
-                    {
-                        isLoading ?
-                            <div className={"flex text-center justify-center"}><Spinner /></div>
-                            : "Sign In"
+                <form onSubmit={handleSubmit(handleSignIn)}>
+                    <Input id={"email"}
+                           title={"email"}
+                           type={"text"}
+                           autoComplete={true}
+                           value={email}
+                           errors={errors}
+                           checker={register}
+                           setter={setEmail}
+                    />
+                    <Input id={"password"}
+                           title={"password"}
+                           type={"password"}
+                           autoComplete={true}
+                           value={password}
+                           errors={errors}
+                           checker={register}
+                           setter={setPassword}
+                    />
+                    { message ?
+                        <div className={"text-xs " + ( success ? "text-green-600" : "text-red-600")}>
+                            {message}
+                        </div>
+                        : null
                     }
-                </button>
-            </form>
+                    <button className={"w-full bg-primary p-2 text-white rounded-lg text-sm mt-4"}>
+                        {
+                            isLoading ?
+                                <div className={"flex text-center justify-center"}><Spinner /></div>
+                                : "Sign In"
+                        }
+                    </button>
+                </form>
             </div>
         </div>
     )

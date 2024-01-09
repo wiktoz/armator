@@ -6,6 +6,7 @@ export async function middleware(req: NextRequest) {
         if(!req.cookies.has('token')) return NextResponse.next()
 
         const token = req.cookies.get('token') || {value: ""}
+        console.log("TOKEN: " + token)
 
         const validToken = await isTokenValid(token.value)
 
@@ -19,7 +20,8 @@ export async function middleware(req: NextRequest) {
 
 
     if(req.nextUrl.pathname.startsWith('/admin')){
-        if(!req.cookies.has('token')) return NextResponse.redirect("http://localhost:3000/auth/signin")
+        if(!req.cookies.has('token'))
+            return NextResponse.redirect("http://localhost:3000/auth/signin")
 
         const token = req.cookies.get('token') || {value: ""}
 

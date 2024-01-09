@@ -9,18 +9,20 @@ import EditAddress from "@/app/_components/user/EditAddress";
 import Link from "next/link";
 import FetchError from "@/app/_components/errors/FetchError";
 import UsersLoader from "@/app/_components/loaders/UsersLoader";
+import Cargos from "@/app/_components/user/Cargos";
+import OrderCargo from "@/app/_components/user/OrderCargo";
 
 const UserPage = () => {
     const [openTab, setOpenTab] = useState("")
 
-    const { data: user, error: userErr, isLoading: isUserLoading }
+    const { data: user, error: userErr, isLoading: isUserLoading, mutate }
         = useSWR<User>('http://localhost:2137/api/v1/user/me', fetcher)
 
     return(
         <div className={"p-4"}>
-            <div className={"p-4 text-2xl font-bold"}>Hello, {user?.firstname} 👋</div>
-            <div className={"flex flex-col md:flex-row gap-10"}>
-                <div className={"inline-flex flex-col"}>
+            <div className={"flex flex-col md:flex-row gap-6"}>
+                <div>
+                <div className={"inline-flex flex-col rounded-2xl shadow bg-white p-8"}>
                     <div className={"p-4 inline-flex flex-col"}>
                         <div className={"text-sm"}>
                             <p className="font-semibold">My account</p>
@@ -77,7 +79,8 @@ const UserPage = () => {
                         </div>
                     }
                 </div>
-                <div className={"flex grow p-4"}>
+                </div>
+                <div className={"flex grow p-8 rounded-2xl shadow bg-white"}>
                     {
                         openTab === "personal" ?
                             <div className={"flex flex-col gap-2 grow"}>
@@ -94,7 +97,7 @@ const UserPage = () => {
                                     !user ?
                                         <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                                    <EditPersonalData user={user}/>
+                                    <EditPersonalData user={user} mutate={mutate}/>
                                 }
                             </div>
                             :
@@ -113,16 +116,42 @@ const UserPage = () => {
                                     !user ?
                                         <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                                    <EditAddress user={user}/>
+                                    <EditAddress user={user} mutate={mutate}/>
                                 }
                             </div>
                             :
                         openTab === "cargos" ?
-                            <div>Cargos <LuChevronRight/> Ordered cargos</div>
+                            <div className={"flex flex-col gap-2 grow"}>
+                                <div className={"flex flex-row text-xs font-semibold items-center"}>
+                                    Cargos <LuChevronRight/> Ordered cargos
+                                </div>
+                                <Cargos/>
+                            </div>
                             :
                         openTab === "order" ?
-                            <div>Cargos <LuChevronRight/> Order a new cargo</div>
-                            : null
+                            <div className={"flex flex-col gap-2 grow"}>
+                                <div className={"flex flex-row text-xs font-semibold items-center"}>
+                                    Cargos <LuChevronRight/> Order a new cargo
+                                </div>
+                                {
+                                    userErr ?
+                                        <FetchError message={"Cannot find API endpoint. Try again later."}/> :
+
+                                    isUserLoading ?
+                                        <UsersLoader/> :
+
+                                    !user ?
+                                        <FetchError message={"Authentication error. You have no permission to read this data."}/> :
+
+                                        <OrderCargo user={user}/>
+                                }
+                            </div>
+                            :
+
+                        <div className={"flex flex-col my-auto"}>
+                            <div className={"text-2xl font-bold"}>Hello, {user?.firstname} 👋</div>
+                            <div className={"text-sm my-2"}>Pick an option from menu to begin.</div>
+                        </div>
                     }
                 </div>
             </div>

@@ -63,7 +63,8 @@ export const isTokenValid = async (token:string) => {
         return response.authenticated;
 
     } catch (err){
-        if(err) return false
+        if(err)
+            return false
     }
 }
 
@@ -82,16 +83,17 @@ export const getTokenPayload = async (token:string) => {
     }
 }
 
-export const fetcher = async (url:string) => {
+export const fetcher = async (url:string, method?:string, body?:string) => {
     const token = await getToken()
 
     if (token) {
         const data = await fetch(url, {
-            method: 'GET',
+            method: method || 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            }
+            },
+            body: body ? body : null
         })
 
         if(data.status === 200) return await data.json()
