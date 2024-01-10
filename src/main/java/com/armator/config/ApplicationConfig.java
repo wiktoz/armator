@@ -251,6 +251,19 @@ public class ApplicationConfig {
 
         cruiseRepository.save(cruise);
 
+        var cruise2 = Cruise.builder()
+                .startDate(java.time.LocalDate.now().plusDays(30))
+                .endDate(java.time.LocalDate.now().plusDays(40))
+                .routeLength(147.0)
+                .loadsNumber(11)
+                .ship(ship2)
+                .srcPort(portA)
+                .dstPort(portB)
+                .workers(Set.of(captainWorker, worker))
+                .build();
+
+        cruiseRepository.save(cruise2);
+
         var load = Load.builder()
                 .content("Alcohol")
                 .weight(100.0)

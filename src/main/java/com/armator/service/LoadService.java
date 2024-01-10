@@ -1,6 +1,7 @@
 package com.armator.service;
 
 
+import com.armator.DTO.load.AssignRequest;
 import com.armator.DTO.load.CreateLoadReq;
 import com.armator.DTO.load.GetLoadResponse;
 import com.armator.exceptions.NoSuchLoadException;
@@ -52,5 +53,12 @@ public class LoadService {
     public List<Load> getLoadsByUserId(Integer id) {
         var customer = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
         return loadRepository.findAllByUser(customer);
+    }
+
+    public Load assignLoad(AssignRequest request) {
+        var cruise = cruiseRepository.findById(request.getCruiseId()).orElseThrow(() -> new RuntimeException("Cruise not found"));
+        var load = loadRepository.findLoadByLoadId(request.getLoadId()).orElseThrow(() -> new RuntimeException("Load not found"));
+        load.setCruise(cruise);
+        return loadRepository.save(load);
     }
 }

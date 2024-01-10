@@ -1,6 +1,7 @@
 package com.armator.controller;
 
 
+import com.armator.DTO.load.AssignRequest;
 import com.armator.DTO.load.CreateLoadReq;
 import com.armator.service.LoadService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,11 @@ public class LoadController {
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getLoadsByUserId(@PathVariable Integer id){
         return ResponseEntity.ok(loadService.getLoadsByUserId(id));
+    }
+
+    @PutMapping("/assign")
+    public ResponseEntity<?> assignLoad(@RequestBody AssignRequest request){
+        return ResponseEntity.ok(loadService.assignLoad(request));
     }
 
 
