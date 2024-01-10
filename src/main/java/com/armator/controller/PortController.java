@@ -22,4 +22,9 @@ public class PortController {
     public ResponseEntity<Port> createPort(@RequestBody Port req) {
         return ResponseEntity.ok(portService.createPort(req));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllPorts(){
+        return ResponseEntity.ok(portService.getAllPorts());
+    }
 }

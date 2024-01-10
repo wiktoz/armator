@@ -5,6 +5,7 @@ import com.armator.repositoriy.PortRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -26,5 +27,9 @@ public class PortService {
                 .build();
         portRepository.save(port);
         return port;
+    }
+
+    public List<Port> getAllPorts() {
+        return portRepository.findAll();
     }
 }

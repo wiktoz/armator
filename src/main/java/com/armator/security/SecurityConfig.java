@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/auth/check-token").permitAll()
                 .requestMatchers("/api/v1/auth/customer/register").permitAll()
+                .requestMatchers("/api/v1/port/all").hasAnyAuthority(SecurityRole.CUSTOMER.toString(),SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/load/user/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/load/id/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/load/me").hasAnyAuthority(SecurityRole.CUSTOMER.toString(), SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())

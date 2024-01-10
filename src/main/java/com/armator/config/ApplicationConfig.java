@@ -210,7 +210,7 @@ public class ApplicationConfig {
 
         var portA = Port.builder()
                 .street("Marszalkowska")
-                .city("Warsaw")
+                .city("Gdynia")
                 .zipCode("00-000")
                 .maxLoadsNumber(100)
                 .loadsNumber(0)
@@ -218,7 +218,7 @@ public class ApplicationConfig {
 
         var portB = Port.builder()
                 .street("Gdanska")
-                .city("Warsaw")
+                .city("Sopot")
                 .zipCode("00-000")
                 .maxLoadsNumber(100)
                 .loadsNumber(0)
