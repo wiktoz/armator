@@ -23,7 +23,9 @@ const Cargos = () => {
                 <div className={"h-px bg-primary"}></div>
                 </>
             }
-            <LoadsContainer loads={loads} isLoadsLoading={isLoadsLoading} loadsErr={loadsErr}/>
+            <div className={"my-4"}>
+                <LoadsContainer loads={loads} isLoadsLoading={isLoadsLoading} loadsErr={loadsErr}/>
+            </div>
         </div>
     )
 }

@@ -64,11 +64,11 @@ const EditAddress = ({user, mutate}:{user:User, mutate:KeyedMutator<User>}) => {
                     <div className={"flex flex-col"}>
                         {
                             editState ?
-                                <Input id={"street"} title={"street"} type={"text"} value={"Marszałkowska"}
+                                <Input id={"street"} title={"street"} type={"text"} value={user.street}
                                        errors={errors} checker={register} /> :
                                 <>
                                     <div className={"font-bold text-xs"}>street</div>
-                                    <div className={"my-2"}>{"Marszałkowska"}</div>
+                                    <div className={"my-2"}>{user.street}</div>
                                 </>
                         }
                     </div>
@@ -76,11 +76,11 @@ const EditAddress = ({user, mutate}:{user:User, mutate:KeyedMutator<User>}) => {
                         <div className={"flex flex-col"}>
                             {
                                 editState ?
-                                    <Input id={"houseNumber"} title={"house"} type={"text"} value={"11"}
+                                    <Input id={"houseNumber"} title={"house"} type={"text"} value={user.houseNumber}
                                            errors={errors} checker={register} /> :
                                     <>
                                         <div className={"font-bold text-xs"}>house</div>
-                                        <div className={"my-2"}>{"11"}</div>
+                                        <div className={"my-2"}>{user.houseNumber}</div>
                                     </>
                             }
                         </div>
@@ -88,11 +88,11 @@ const EditAddress = ({user, mutate}:{user:User, mutate:KeyedMutator<User>}) => {
                         <div className={"flex flex-col"}>
                             {
                                 editState ?
-                                    <Input id={"flatNumber"} title={"flat"} type={"text"} value={"59"}
+                                    <Input id={"flatNumber"} title={"flat"} type={"text"} value={user.flatNumber}
                                            errors={errors} checker={register} /> :
                                     <>
                                         <div className={"font-bold text-xs"}>flat</div>
-                                        <div className={"my-2"}>{"59"}</div>
+                                        <div className={"my-2"}>{user.flatNumber}</div>
                                     </>
                             }
                         </div>
@@ -101,22 +101,22 @@ const EditAddress = ({user, mutate}:{user:User, mutate:KeyedMutator<User>}) => {
                         <div className={"flex flex-col"}>
                             {
                                 editState ?
-                                    <Input id={"zipCode"} title={"zip code"} type={"text"} value={"02-495"}
+                                    <Input id={"zipCode"} title={"zip code"} type={"text"} value={user.zipCode}
                                            errors={errors} checker={register} /> :
                                     <>
                                         <div className={"font-bold text-xs"}>zip code</div>
-                                        <div className={"my-2"}>{"02-495"}</div>
+                                        <div className={"my-2"}>{user.zipCode}</div>
                                     </>
                             }
                         </div>
                         <div className={"flex flex-col"}>
                             {
                                 editState ?
-                                    <Input id={"city"} title={"city"} type={"text"} value={"Warszawa"}
+                                    <Input id={"city"} title={"city"} type={"text"} value={user.city}
                                            errors={errors} checker={register} /> :
                                     <>
                                         <div className={"font-bold text-xs"}>city</div>
-                                        <div className={"my-2"}>{"Warszawa"}</div>
+                                        <div className={"my-2"}>{user.city}</div>
                                     </>
                             }
                         </div>

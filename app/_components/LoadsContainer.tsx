@@ -1,6 +1,6 @@
 import FetchError from "@/app/_components/errors/FetchError";
 import UsersLoader from "@/app/_components/loaders/UsersLoader";
-import Load from "@/app/_components/Load";
+import LoadBox from "@/app/_components/LoadBox";
 
 const LoadsContainer = ({loads, loadsErr, isLoadsLoading}:{loads:Load[]|undefined, loadsErr:string, isLoadsLoading:boolean}) => {
     return(
@@ -20,12 +20,12 @@ const LoadsContainer = ({loads, loadsErr, isLoadsLoading}:{loads:Load[]|undefine
                         No cargos to show
                     </div> :
 
-                <div className={"grid grid-cols-1 gap-2"}>
+                <div className={"grid grid-cols-1 md:grid-cols-2 gap-4"}>
                     {
                         loads && loads.length > 0 && loads.map(l => {
                             return(
                                 <div key={l.loadId}>
-                                    <Load l={l}/>
+                                    <LoadBox l={l}/>
                                 </div>
                             )
                         })

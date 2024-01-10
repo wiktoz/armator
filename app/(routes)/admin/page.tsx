@@ -23,7 +23,7 @@ import {getCountryCode} from "@/lib/countries";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Spinner from "@/app/_components/Spinner";
-import Load from "@/app/_components/Load";
+import LoadBox from "@/app/_components/LoadBox";
 import LoadsContainer from "@/app/_components/LoadsContainer";
 
 const MarkerBox = dynamic(() => import('@/app/_components/map/MarkerBox'), {
@@ -62,7 +62,7 @@ export default function Home(){
                         !users ?
                             <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                        <div className={"grid md:grid-cols-3 gap-2"}>
+                        <div className={"grid md:grid-cols-3 gap-4"}>
                             {
                             users.length > 0 && users.map(u => {
                                 return(
@@ -131,7 +131,7 @@ export default function Home(){
                         !ships ?
                             <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                        <div className={"grid md:grid-cols-1 gap-2"}>
+                        <div className={"grid grid-cols-1 md:grid-cols-2 gap-2"}>
                             {
                                 ships && ships.length > 0 && ships.map(s => {
                                     return (

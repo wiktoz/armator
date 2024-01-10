@@ -1,7 +1,7 @@
 import {LuBox, LuMail, LuMapPin} from "react-icons/lu";
 import Accordion from "@/app/_components/Accordion";
 
-const Load = ({l}:{l:Load}) => {
+const LoadBox = ({l}:{l:Load}) => {
     return(
         <div className={"rounded-lg border border-primary"}>
             <div className={"flex flex-row gap-2 h-full w-full"}>
@@ -62,7 +62,7 @@ const Load = ({l}:{l:Load}) => {
                 <div>
                     <span
                         className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">
-                        {l.status.toLowerCase()}
+                        {l.status && l.status.toLowerCase()}
                     </span>
                 </div>
             </div>
@@ -70,4 +70,4 @@ const Load = ({l}:{l:Load}) => {
     )
 }
 
-export default Load
+export default LoadBox

@@ -1,7 +1,7 @@
 'use client'
 
-import {useState} from "react"
-import {UseFormRegister} from "react-hook-form";
+import {useEffect, useState} from "react"
+import {UseFormRegister, UseFormSetValue} from "react-hook-form";
 
 interface InputParams {
     id: string,
@@ -11,11 +11,17 @@ interface InputParams {
     autoComplete?: boolean,
     errors: { [key: string]: { message?: string } },
     checker: UseFormRegister<any>,
-    setter?: (value: string) => void
+    setter?: (value: string) => void,
+    setValue?: UseFormSetValue<any>
 }
 
-const Input = ({id, title, type, value, autoComplete, errors, checker, setter} : InputParams) => {
+const Input = ({id, title, type, value, autoComplete, errors, checker, setter, setValue} : InputParams) => {
     const [currentValue, setCurrentValue] = useState(value || "")
+
+    useEffect(() => {
+        setCurrentValue(value || "")
+        setValue ? setValue(id, value || "") : null
+    }, [value, setValue, id])
 
     return (
         <div className="w-full">

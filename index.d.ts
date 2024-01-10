@@ -41,11 +41,11 @@ interface Load {
     loadId: number,
     content: string,
     weight: number,
-    price: number,
+    price?: number,
     user: User,
     srcPortId: Port,
     dstPortId: Port,
-    status: string
+    status?: string
 }
 
 interface Address {
