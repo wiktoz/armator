@@ -41,7 +41,7 @@ public class LoadService {
                 .status(req.getStatus())
                 .srcPortId(portService.getPort(req.getSrcPortId()))
                 .dstPortId(portService.getPort(req.getDstPortId()))
-                .cruise(cruiseRepository.findById(1).orElseThrow(() -> new RuntimeException("Cruise not found"))) // TODO: handle cruise
+                //.cruise(cruiseRepository.findById(1).orElseThrow(() -> new RuntimeException("Cruise not found"))) // TODO: handle cruise
                 .build());
     }
 
