@@ -36,12 +36,11 @@ public class LoadService {
         return loadRepository.save(Load.builder()
                 .user(customer)
                 .content(req.getContent())
-                .price(req.getPrice())
+                .price(0.0)
                 .weight(req.getWeight())
-                .status(req.getStatus())
+                .status("NEW")
                 .srcPortId(portService.getPort(req.getSrcPortId()))
                 .dstPortId(portService.getPort(req.getDstPortId()))
-                //.cruise(cruiseRepository.findById(1).orElseThrow(() -> new RuntimeException("Cruise not found"))) // TODO: handle cruise
                 .build());
     }
 
@@ -59,6 +58,7 @@ public class LoadService {
         var cruise = cruiseRepository.findById(request.getCruiseId()).orElseThrow(() -> new RuntimeException("Cruise not found"));
         var load = loadRepository.findLoadByLoadId(request.getLoadId()).orElseThrow(() -> new RuntimeException("Load not found"));
         load.setCruise(cruise);
+        load.setPrice(request.getPrice());
         return loadRepository.save(load);
     }
 }

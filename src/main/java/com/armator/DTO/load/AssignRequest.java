@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class AssignRequest {
     private Integer loadId;
     private Integer cruiseId;
+    private Double price;
 }

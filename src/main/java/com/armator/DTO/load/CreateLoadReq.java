@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateLoadReq {
     private String content;
     private Double weight;
-    private Double price;
     private Integer srcPortId;
     private Integer dstPortId;
-    private String status;
 }
