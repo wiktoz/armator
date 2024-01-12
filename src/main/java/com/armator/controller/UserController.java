@@ -4,6 +4,7 @@ package com.armator.controller;
 import com.armator.DTO.user.UpdateUser;
 import com.armator.DTO.user.UserResponse;
 import com.armator.model.User;
+import com.armator.service.SearchService;
 import com.armator.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final SearchService searchService;
 
     @GetMapping("/id/{id}")
     //@PreAuthorize("#id == authentication.principal.id")
@@ -45,5 +47,9 @@ public class UserController {
     @PutMapping("/me")
     public ResponseEntity<User> updateMe(@RequestHeader("Authorization") String token, @RequestBody UpdateUser req) {
         return ResponseEntity.ok(userService.updateMe(token, req));
+    }
+    @GetMapping("/search/{query}")
+    public ResponseEntity<?> searchUser(@PathVariable String query){
+        return ResponseEntity.ok(searchService.searchUser(query));
     }
 }

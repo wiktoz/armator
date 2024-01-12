@@ -2,6 +2,7 @@ package com.armator.service;
 
 
 import com.armator.model.Load;
+import com.armator.model.User;
 import com.armator.repositoriy.LoadRepository;
 import com.armator.repositoriy.PortRepository;
 import com.armator.repositoriy.UserRepository;
@@ -23,5 +24,13 @@ public class SearchService {
         }
 
         return loadRepository.loadSearch(searchString);
+    }
+    public List<User> searchUser(String searchString){
+
+        if (searchString.isEmpty()){
+            return userRepository.findAll();
+        }
+
+        return userRepository.userSearch(searchString);
     }
 }
