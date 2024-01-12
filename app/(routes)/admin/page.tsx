@@ -2,14 +2,12 @@
 
 import {
     LuMail,
-    LuMapPin,
-    LuBox,
     LuShip,
     LuContainer,
     LuUsers2,
     LuUser2,
     LuUserCog2,
-    LuStar
+    LuStar, LuMap
 } from "react-icons/lu"
 
 import useSWR from "swr"
@@ -23,8 +21,10 @@ import {getCountryCode} from "@/lib/countries";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Spinner from "@/app/_components/Spinner";
-import LoadBox from "@/app/_components/LoadBox";
 import LoadsContainer from "@/app/_components/LoadsContainer";
+import SearchBar from "@/app/_components/form/SearchBar";
+import UserBox from "@/app/_components/UserBox";
+import UsersContainer from "@/app/_components/UsersContainer";
 
 const MarkerBox = dynamic(() => import('@/app/_components/map/MarkerBox'), {
     ssr: false,
@@ -36,89 +36,37 @@ const SmallMap = dynamic(() => import('@/app/_components/map/SmallMap'), {
 })
 
 export default function Home(){
-    const { data: users, error: usersErr, isLoading: isUsersLoading } = useSWR<User[]>('http://localhost:2137/api/v1/user/all', fetcher)
-    const { data: loads, error: loadsErr, isLoading: isLoadsLoading } = useSWR<Load[]>('http://localhost:2137/api/v1/load/all', fetcher)
     const { data: ships, error: shipsErr, isLoading: isShipsLoading } = useSWR<Ship[]>('http://localhost:2137/api/v1/ship/all', fetcher)
 
     return(
         <div className={"p-8 flex flex-col gap-8"}>
             <div className={"p-8 rounded-2xl shadow bg-white"}>
-                <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
-                    <div>
-                        <LuUsers2 size={"1.5em"} className={"h-full"} />
-                    </div>
-                    <div className={"text-2xl font-bold"}>
-                        Users
-                    </div>
-                </div>
-                <div className={"flex flex-col gap-1"}>
-                    {
-                        usersErr ?
-                            <FetchError message={"Cannot find API endpoint. Try again later."}/> :
-
-                        isUsersLoading ?
-                            <UsersLoader/> :
-
-                        !users ?
-                            <FetchError message={"Authentication error. You have no permission to read this data."}/> :
-
-                        <div className={"grid md:grid-cols-3 gap-4"}>
-                            {
-                            users.length > 0 && users.map(u => {
-                                return(
-                                    <div key={u.id} className={"rounded-lg border border-primary"}>
-                                        <div className={"flex flex-row h-full w-full gap-2"}>
-                                            <div className={"flex items-center text-xl text-white bg-primary rounded-l-lg px-4"}>
-                                                {
-                                                    u.role.toLowerCase() === "admin" ?
-                                                        <LuStar/> : <LuUser2/>
-                                                }
-                                            </div>
-                                            <div className={"grow p-4"}>
-                                                <p className={"text-primary font-semibold text-xs"}>
-                                                    {u.firstname} {u.lastname}
-                                                </p>
-                                                <p className={"text-xs font-normal mb-1"}>{u.role.toLowerCase()}</p>
-                                                <p className={"text-sm font-normal"}>{u.email}</p>
-                                            </div>
-                                            <div className={"hover:cursor-pointer hover:text-gray-600 text-lg flex items-center p-2"}>
-                                                <Tooltip text={"Manage user"}>
-                                                    <LuUserCog2/>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                            }
+                <UsersContainer/>
+            </div>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
+                <LoadsContainer/>
+            </div>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
+                <div className={"flex flex-row justify-between items-center mb-4 gap-6"}>
+                    <div className={"my-2 flex flex-col gap-1"}>
+                        <div className={"flex flex-row gap-1 text-gray-700"}>
+                            <div>
+                                <LuShip size={"1.5em"} className={"h-full"} />
+                            </div>
+                            <div className={"text-xl font-bold"}>
+                                Ships
+                            </div>
                         </div>
-                    }
-                </div>
-            </div>
-            <div className={"p-8 rounded-2xl shadow bg-white"}>
-                <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
-                    <div>
-                        <LuContainer size={"1.5em"} className={"h-full"} />
+                        <div className={"text-xs text-gray-600"}>
+                            Preview and manage fleet of ships
+                        </div>
                     </div>
-                    <div className={"text-2xl font-bold"}>
-                        Loads
+                    <Link href={"/map"}>
+                    <div className={"w-8 h-8 text-xs mb-1 bg-primary text-gray-100 py-1 px-2 rounded-2xl " +
+                        "text-center flex justify-center items-center hover:bg-gray-700 transition-all"}>
+                            <LuMap/>
                     </div>
-                </div>
-                <LoadsContainer loads={loads} isLoadsLoading={isLoadsLoading} loadsErr={loadsErr}/>
-            </div>
-            <div className={"p-8 rounded-2xl shadow bg-white"}>
-                <div className={"flex flex-row gap-1 text-gray-700 mb-4"}>
-                    <div>
-                        <LuShip size={"1.5em"} className={"h-full"} />
-                    </div>
-                    <div className={"text-2xl font-bold"}>
-                        Ships
-                    </div>
-                    <div className={"text-sm mx-2 flex items-end mb-1"}>
-                        <Link href={"/map"}>
-                            show map
-                        </Link>
-                    </div>
+                    </Link>
                 </div>
                 <div className={"flex flex-col gap-1"}>
                     {
@@ -131,18 +79,18 @@ export default function Home(){
                         !ships ?
                             <FetchError message={"Authentication error. You have no permission to read this data."}/> :
 
-                        <div className={"grid grid-cols-1 md:grid-cols-2 gap-2"}>
+                        <div className={"grid grid-cols-1 lg:grid-cols-2 gap-4"}>
                             {
                                 ships && ships.length > 0 && ships.map(s => {
                                     return (
-                                        <div key={s.shipId} className={"rounded-lg border border-primary"}>
-                                            <div className={"flex flex-row justify-between gap-2"}>
-                                                <div className={"flex flex-row gap-2 grow"}>
-                                                    <div className={"p-4 flex items-center bg-primary text-white rounded-l-lg"}>
+                                        <div key={s.shipId} className={"rounded-2xl shadow"}>
+                                            <div className={"flex flex-row justify-between"}>
+                                                <div className={"flex flex-row grow"}>
+                                                    <div className={"p-4 flex items-center bg-primary text-white rounded-l-2xl border border-primary"}>
                                                         <LuShip className={"text-xl"}/>
                                                     </div>
-                                                    <div className={"flex flex-col mx-4 grow self-center"}>
-                                                        <div className={"grid grid-cols-2 gap-2"}>
+                                                    <div className={"flex flex-col h-full grow border border-primary border-r-0 px-2"}>
+                                                        <div className={"grid grid-cols-2 gap-2 my-auto mx-4"}>
                                                             <div className={"flex flex-col col-span-2"}>
                                                                 <div className={"flex flex-row w-full justify-start items-center gap-2 text-sm my-2"}>
                                                                     <Tooltip text={s.flag}>
@@ -182,8 +130,8 @@ export default function Home(){
                                                     </div>
                                                 </div>
 
-                                                <div className={"w-64 h-48 flex items-center justify-center"}>
-                                                    <SmallMap center={[s.latitude, s.longitude]} className={"w-64 h-48 rounded-r-lg overflow-hidden"}>
+                                                <div className={"w-32 xs:w-48 sm:w-64 lg:w-48 xl:w-64 h-48 flex items-center justify-center"}>
+                                                    <SmallMap center={[s.latitude, s.longitude]} className={"w-32 xs:w-48 sm:w-64 lg:w-48 xl:w-64 h-48 rounded-r-lg overflow-hidden"}>
                                                         <MarkerBox ship={s}/>
                                                     </SmallMap>
                                                 </div>

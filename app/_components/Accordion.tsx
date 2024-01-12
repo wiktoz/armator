@@ -13,7 +13,6 @@ const Accordion = ({ title, children}:Props) => {
 
   return (
     <motion.div>
-      <AnimatePresence>
         <motion.div
           className="relative flex flex-row items-center justify-left text-xs hover:cursor-pointer transition-all z-20"
           onClick={() => setIsOpen(!isOpen)}
@@ -49,7 +48,6 @@ const Accordion = ({ title, children}:Props) => {
                     </motion.div>
                 )
         }
-      </AnimatePresence>
     </motion.div>
   );
 };

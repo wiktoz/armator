@@ -2,7 +2,7 @@ import Input from "@/app/_components/form/Input";
 import {useForm} from "react-hook-form";
 import {resolver} from "@/app/_components/validation/schema/address";
 import React, {useState} from "react";
-import {LuArrowRight} from "react-icons/lu";
+import {LuArrowRight, LuChevronRight, LuContainer, LuMapPin, LuPersonStanding} from "react-icons/lu";
 import Spinner from "@/app/_components/Spinner";
 import {fetcher} from "@/lib/helpers";
 import {KeyedMutator} from "swr";
@@ -42,22 +42,37 @@ const EditAddress = ({user, mutate}:{user:User, mutate:KeyedMutator<User>}) => {
 
     return(
         <div className={"flex flex-col gap-2 my-2 grow"}>
-            <div className={"flex flex-row items-center justify-between gap-4"}>
-                <div className={"font-bold"}>Address</div>
-                <div onClick={() => { setEditState(!editState); setMessage("")}}
-                     className={"hover:cursor-pointer flex flex-row gap-1 items-center text-xs"}>
-                    <div>
-                        {
-                            editState ?
-                                "Cancel editing" : "Edit data"
-
-                        }
+            <div className={"flex flex-row text-xs items-center mb-2"}>
+                My account <LuChevronRight/> Address
+            </div>
+            <div className={"flex flex-row justify-between"}>
+                <div className={"my-2 flex flex-col gap-1"}>
+                    <div className={"flex flex-row gap-1 text-gray-700"}>
+                        <div>
+                            <LuMapPin size={"1.5em"} className={"h-full"} />
+                        </div>
+                        <div className={"text-xl font-bold"}>
+                            Address
+                        </div>
                     </div>
-                    <div><LuArrowRight/></div>
+                    <div className={"text-xs text-gray-600"}>
+                        Preview and manage your address data
+                    </div>
+                </div>
+                <div className={"flex flex-row items-center gap-4"}>
+                    <div onClick={() => { setEditState(!editState); setMessage("")}}
+                         className={"hover:cursor-pointer flex flex-row gap-1 items-center text-xs"}>
+                        <div>
+                            {
+                                editState ?
+                                    "Cancel editing" : "Edit data"
+
+                            }
+                        </div>
+                        <div><LuArrowRight/></div>
+                    </div>
                 </div>
             </div>
-
-            <div className={"h-px bg-primary"}></div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={"flex flex-col gap-2 my-2"}>

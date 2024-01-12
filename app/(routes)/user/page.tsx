@@ -84,9 +84,6 @@ const UserPage = () => {
                     {
                         openTab === "personal" ?
                             <div className={"flex flex-col gap-2 grow"}>
-                                <div className={"flex flex-row text-xs font-semibold items-center"}>
-                                    My account <LuChevronRight/> Personal information
-                                </div>
                                 {
                                     userErr ?
                                         <FetchError message={"Cannot find API endpoint. Try again later."}/> :
@@ -103,9 +100,6 @@ const UserPage = () => {
                             :
                         openTab === "address" ?
                             <div className={"flex flex-col gap-2 grow"}>
-                                <div className={"flex flex-row text-xs font-semibold items-center"}>
-                                    My account <LuChevronRight/> Address
-                                </div>
                                 {
                                     userErr ?
                                         <FetchError message={"Cannot find API endpoint. Try again later."}/> :
@@ -122,17 +116,11 @@ const UserPage = () => {
                             :
                         openTab === "cargos" ?
                             <div className={"flex flex-col gap-2 grow"}>
-                                <div className={"flex flex-row text-xs font-semibold items-center"}>
-                                    Cargos <LuChevronRight/> Ordered cargos
-                                </div>
                                 <Cargos/>
                             </div>
                             :
                         openTab === "order" ?
                             <div className={"flex flex-col gap-2 grow"}>
-                                <div className={"flex flex-row text-xs font-semibold items-center"}>
-                                    Cargos <LuChevronRight/> Order a new cargo
-                                </div>
                                 {
                                     userErr ?
                                         <FetchError message={"Cannot find API endpoint. Try again later."}/> :

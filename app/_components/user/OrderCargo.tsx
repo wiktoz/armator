@@ -4,7 +4,7 @@ import {resolver} from "@/app/_components/validation/schema/load";
 import React, {useState} from "react";
 import Spinner from "@/app/_components/Spinner";
 import {fetcher} from "@/lib/helpers";
-import { LuCheckCheck } from "react-icons/lu";
+import {LuBox, LuCheckCheck, LuChevronRight, LuContainer} from "react-icons/lu";
 import PortPicker from "@/app/_components/PortPicker";
 
 interface NewLoad {
@@ -29,8 +29,6 @@ const OrderCargo = ({user}:{user:User}) => {
 
     const onSubmit = async (data:NewLoad) => {
         setIsLoading(true)
-
-        console.log(JSON.stringify(data))
 
         try {
             const updateData = await fetcher("http://localhost:2137/api/v1/load/", "POST", JSON.stringify(data))
@@ -57,11 +55,22 @@ const OrderCargo = ({user}:{user:User}) => {
 
     return(
         <div className={"flex flex-col gap-2 my-2 grow"}>
-            <div className={"flex flex-row items-center justify-between gap-4"}>
-                <div className={"font-bold"}>Order a new cargo transport</div>
+            <div className={"flex flex-row text-xs items-center mb-2"}>
+                Cargos <LuChevronRight/> Order a new cargo
             </div>
-
-            <div className={"h-px bg-primary"}></div>
+            <div className={"my-2 flex flex-col gap-1"}>
+                <div className={"flex flex-row gap-1 text-gray-700"}>
+                    <div>
+                        <LuBox size={"1.5em"} className={"h-full"} />
+                    </div>
+                    <div className={"text-xl font-bold"}>
+                        Order a new cargo
+                    </div>
+                </div>
+                <div className={"text-xs text-gray-600"}>
+                    Fill out the form to receive freight transport offers from shipowners
+                </div>
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={"flex flex-col gap-2 my-2"}>
