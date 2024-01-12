@@ -50,9 +50,9 @@ public class LoadController {
         return ResponseEntity.ok(loadService.assignLoad(request));
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<?> searchLoad(@RequestBody SearchRequest req){
-        return ResponseEntity.ok(searchService.searchLoad(req.getSearchString()));
+    @GetMapping("/search/{query}")
+    public ResponseEntity<?> searchLoad(@PathVariable String query){
+        return ResponseEntity.ok(searchService.searchLoad(query));
     }
 
 
