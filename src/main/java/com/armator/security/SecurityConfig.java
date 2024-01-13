@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/load/me").hasAnyAuthority(SecurityRole.CUSTOMER.toString(), SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/load/").hasAnyAuthority(SecurityRole.CUSTOMER.toString(), SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/auth/register").hasAnyAuthority(SecurityRole.ADMIN.name())
-                .requestMatchers("/api/v1/ship/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name())
+                .requestMatchers("/api/v1/ship/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/user/email/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/user/all/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/user/id/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())

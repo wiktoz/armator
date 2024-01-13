@@ -52,6 +52,7 @@ public class ShipService {
                     .latitude(ship.getLatitude())
                     .longitude(ship.getLongitude())
                     .shipOwnerId(ship.getShipOwner().getShipOwnerId())
+
                     .build();
     }
 
@@ -76,6 +77,8 @@ public class ShipService {
                     .latitude(newShip.getLatitude())
                     .longitude(newShip.getLongitude())
                     .shipOwnerId(newShip.getShipOwner().getShipOwnerId())
+                    .isAvailable(true)
+                    .isFar(false)
                     .build();
     }
 
@@ -98,6 +101,7 @@ public class ShipService {
                     .maxKnots(ship.getMaxKnots())
                     .latitude(ship.getLatitude())
                     .longitude(ship.getLongitude())
+                    .shipOwnerId(ship.getShipOwner().getShipOwnerId())
                     .build();
     }
 

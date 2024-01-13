@@ -22,4 +22,6 @@ public class Port {
     private String zipCode;
     private Integer maxLoadsNumber;
     private Integer loadsNumber;
+    private Double latitude;
+    private Double longitude;
 }

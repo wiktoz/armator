@@ -2,10 +2,12 @@ package com.armator.controller;
 
 
 import com.armator.DTO.Message;
+import com.armator.DTO.ship.AvailableShipsReq;
 import com.armator.DTO.ship.CreateShipReq;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
+import com.armator.service.AvailabilityService;
 import com.armator.service.ShipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ShipController {
     private final ShipService shipService;
+    private final AvailabilityService availabilityService;
     @GetMapping("/position/{id}")
     public ResponseEntity<PositionResponse> getPositionById(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.getPosition(id));
@@ -55,4 +58,11 @@ public class ShipController {
     public ResponseEntity<?> getShipByShipOwnerId(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.getAllShipByShipOwnerId(id));
     }
+
+    @PostMapping("/available/all")
+    public ResponseEntity<?> getAvailableShips(@RequestBody AvailableShipsReq req) {
+        return ResponseEntity.ok(availabilityService.getAvailableShips(req.getStartDate(), req.getEndDate(), req.getPortId()));
+    }
+
+
 }

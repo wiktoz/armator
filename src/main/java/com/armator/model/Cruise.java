@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,10 +22,10 @@ public class Cruise {
     @Id
     @GeneratedValue
     private Integer cruiseId;
-    @Temporal(TemporalType.DATE)
-    private LocalDate startDate;
-    @Temporal(TemporalType.DATE)
-    private LocalDate endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime endDate;
     private Double routeLength;
     private Integer loadsNumber;
     @ManyToOne

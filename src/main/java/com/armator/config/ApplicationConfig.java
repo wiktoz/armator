@@ -138,7 +138,7 @@ public class ApplicationConfig {
                 .maxFuelCapacity(2137)
                 .maxLoadsNumber(2137)
                 .latitude(54.9)
-                .longitude(18.3)
+                .longitude(16.3)
                 .build();
 
         shipRepository.save(ship3);
@@ -214,6 +214,8 @@ public class ApplicationConfig {
                 .zipCode("00-000")
                 .maxLoadsNumber(100)
                 .loadsNumber(0)
+                .latitude(53.9)
+                .longitude(14.25)
                 .build();
 
         var portB = Port.builder()
@@ -222,6 +224,8 @@ public class ApplicationConfig {
                 .zipCode("00-000")
                 .maxLoadsNumber(100)
                 .loadsNumber(0)
+                .latitude(54.44781)
+                .longitude(18.57701)
                 .build();
         portRepository.save(portA);
         portRepository.save(portB);
@@ -239,8 +243,8 @@ public class ApplicationConfig {
         customerRepository.save(customerA);
 
         var cruise = Cruise.builder()
-                .startDate(java.time.LocalDate.now())
-                .endDate(java.time.LocalDate.now().plusDays(10))
+                .startDate(java.time.LocalDateTime.now())
+                .endDate(java.time.LocalDateTime.now().plusDays(10))
                 .routeLength(100.0)
                 .loadsNumber(0)
                 .ship(ship)
@@ -250,10 +254,11 @@ public class ApplicationConfig {
                 .build();
 
         cruiseRepository.save(cruise);
+        shipRepository.save(ship);
 
         var cruise2 = Cruise.builder()
-                .startDate(java.time.LocalDate.now().plusDays(30))
-                .endDate(java.time.LocalDate.now().plusDays(40))
+                .startDate(java.time.LocalDateTime.now().plusDays(30))
+                .endDate(java.time.LocalDateTime.now().plusDays(40))
                 .routeLength(147.0)
                 .loadsNumber(11)
                 .ship(ship2)
@@ -263,6 +268,7 @@ public class ApplicationConfig {
                 .build();
 
         cruiseRepository.save(cruise2);
+        shipRepository.save(ship2);
 
         var load = Load.builder()
                 .content("Alcohol")
@@ -283,7 +289,7 @@ public class ApplicationConfig {
                 .srcPortId(portA)
                 .dstPortId(portB)
                 .status("NEW")
-                .cruise(cruise)
+                .cruise(cruise2)
                 .build();
 
 

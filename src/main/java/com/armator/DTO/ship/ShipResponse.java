@@ -20,4 +20,6 @@ public class ShipResponse {
     private Integer shipOwnerId;
     private Double latitude;
     private Double longitude;
+    private Boolean isAvailable;
+    private Boolean isFar;
 }
