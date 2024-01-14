@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import {useForm} from "react-hook-form"
 import {resolver} from "@/app/_components/validation/schema/signin"
 import Spinner from "@/app/_components/Spinner"
+import Link from "next/link";
+import {LuLogIn} from "react-icons/lu";
 
 interface SignInData {
     email: string,
@@ -74,9 +76,13 @@ export default function SignInPage(){
 
     return(
         <div className={"flex w-full justify-center my-12"}>
-            <div className={"w-2/3 md:w-1/3 rounded-2xl shadow bg-white p-8 py-12"}>
-                <div className={"font-bold text-2xl mb-8"}>
-                    Sign In
+            <div className={"mx-8 w-full md:w-2/3 lg:w-1/2 rounded-2xl shadow bg-white p-8 py-12"}>
+                <div className={"font-bold text-xl flex flex-row items-center gap-1 text-gray-800"}>
+                    <LuLogIn/>
+                    <p>Sign In</p>
+                </div>
+                <div className={"text-gray-500 text-xs mb-6"}>
+                    Log into existing account
                 </div>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <Input id={"email"}
@@ -97,13 +103,18 @@ export default function SignInPage(){
                            checker={register}
                            setter={setPassword}
                     />
+                    <div className={"text-gray-400 text-xs hover:text-gray-600 transition-all mt-4"}>
+                        <Link href={"/auth/signup"}>
+                            Don&apos;t you have account? Register now.
+                        </Link>
+                    </div>
                     { message ?
-                        <div className={"text-xs " + ( success ? "text-green-600" : "text-red-600")}>
+                        <div className={"text-xs mt-4 " + ( success ? "text-green-600" : "text-red-600")}>
                             {message}
                         </div>
                         : null
                     }
-                    <button className={"w-full bg-primary p-2 text-white rounded-lg text-sm mt-4"}>
+                    <button className={"w-full bg-primary p-2 text-white rounded-lg text-sm mt-4 hover:bg-gray-700 transition-all"}>
                         {
                             isLoading ?
                                 <div className={"flex text-center justify-center"}><Spinner /></div>

@@ -1,4 +1,4 @@
-import {LuBox, LuMail, LuMapPin} from "react-icons/lu";
+import {LuBox, LuCog, LuMail, LuMapPin, LuPencilLine} from "react-icons/lu";
 import Accordion from "@/app/_components/Accordion";
 
 const LoadBox = ({l}:{l:Load}) => {
@@ -60,11 +60,14 @@ const LoadBox = ({l}:{l:Load}) => {
                             </div>
                         </div>
                     </div>
-                    <div className={"my-1"}>
+                    <div className={"my-1 flex flex-col justify-between mx-2"}>
                         <span
-                            className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">
+                            className="bg-indigo-100 text-indigo-800 text-xs font-medium px-2 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">
                             {l.status && l.status.toLowerCase()}
                         </span>
+                        <div className={"flex justify-end text-lg p-2"}>
+                            <LuPencilLine/>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import {LuServerOff, LuShip, LuLogOut} from "react-icons/lu"
+import {LuServerOff, LuShip, LuLogOut, LuLogIn} from "react-icons/lu"
 import useSWR from "swr";
 import {fetcher, logout} from "@/lib/helpers";
 import Spinner from "@/app/_components/Spinner";
@@ -75,7 +75,10 @@ export default function Navbar(){
                         :
                         <div className={"text-sm"}>
                             <Link href={"/auth/signin"}>
-                                sign in
+                                <div className={"flex flex-row items-center gap-1"}>
+                                    <LuLogIn/>
+                                    <p>sign in</p>
+                                </div>
                             </Link>
                         </div>
                     }

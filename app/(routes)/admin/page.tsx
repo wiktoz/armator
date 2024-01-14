@@ -3,11 +3,7 @@
 import {
     LuMail,
     LuShip,
-    LuContainer,
-    LuUsers2,
-    LuUser2,
-    LuUserCog2,
-    LuStar, LuMap
+    LuMap
 } from "react-icons/lu"
 
 import useSWR from "swr"
@@ -25,6 +21,10 @@ import LoadsContainer from "@/app/_components/LoadsContainer";
 import SearchBar from "@/app/_components/form/SearchBar";
 import UserBox from "@/app/_components/UserBox";
 import UsersContainer from "@/app/_components/UsersContainer";
+import PortPicker from "@/app/_components/PortPicker";
+import Datepicker from "@/app/_components/form/Datepicker";
+import NewCruise from "@/app/_components/NewCruise";
+import CruisesContainer from "@/app/_components/CruisesContainer";
 
 const MarkerBox = dynamic(() => import('@/app/_components/map/MarkerBox'), {
     ssr: false,
@@ -144,6 +144,10 @@ export default function Home(){
                     }
                 </div>
             </div>
+            <div className={"p-8 rounded-2xl shadow bg-white"}>
+                <CruisesContainer/>
+            </div>
+
         </div>
     )
 }
