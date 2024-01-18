@@ -2,7 +2,6 @@ package com.armator.controller;
 
 
 import com.armator.DTO.Message;
-import com.armator.DTO.ship.AvailableShipsReq;
 import com.armator.DTO.ship.CreateShipReq;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
@@ -59,9 +58,9 @@ public class ShipController {
         return ResponseEntity.ok(shipService.getAllShipByShipOwnerId(id));
     }
 
-    @PostMapping("/available/all")
-    public ResponseEntity<?> getAvailableShips(@RequestBody AvailableShipsReq req) {
-        return ResponseEntity.ok(availabilityService.getAvailableShips(req.getStartDate(), req.getEndDate(), req.getPortId()));
+    @GetMapping("/available/all/{portId}/{startDate}/{endDate}")
+    public ResponseEntity<?> getAvailableShips(@PathVariable Integer portId, @PathVariable String startDate, @PathVariable String endDate) {
+        return ResponseEntity.ok(availabilityService.getAvailableShips(startDate, endDate, portId));
     }
 
 
