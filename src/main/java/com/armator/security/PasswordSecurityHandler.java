@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class PasswordSecurityHandler {
     public static boolean isOnBlacklist(String password) {
         try {
-            return Files.lines(Paths.get("weakpass.txt")).anyMatch(l -> l.contains(password));
+            return Files.lines(Paths.get("./src/main/resources/weakpass.txt")).anyMatch(l -> l.contains(password));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
