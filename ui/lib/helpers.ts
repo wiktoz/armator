@@ -33,7 +33,7 @@ export const logout = async () => {
     const isTokenDeleted = await deleteToken()
     if(!isTokenDeleted) return false
 
-    const blackListToken = await fetch("http://localhost:2137/api/v1/auth/revoke-token", {
+    const blackListToken = await fetch("http://api:2137/api/v1/auth/revoke-token", {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -48,7 +48,7 @@ export const isTokenValid = async (token:string) => {
     if(!token) return false
 
     try {
-        const checkValidity = await fetch("http://localhost:2137/api/v1/auth/check-token", {
+        const checkValidity = await fetch("http://api:2137/api/v1/auth/check-token", {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

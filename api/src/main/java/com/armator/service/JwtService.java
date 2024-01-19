@@ -22,7 +22,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String key = new KeyLoader().getKeyFromFile();
+    private final String key = "a628a492f6a89de246662d3acba5215a65d1deeb60b8ae0d14bb91225c3b3ede";
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }

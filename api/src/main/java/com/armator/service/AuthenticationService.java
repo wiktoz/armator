@@ -36,57 +36,61 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
-    public RegisterMessage register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new UserAlreadyExistsException("This user already exists!");
-        }
-        if (PasswordSecurityHandler.isOnBlacklist(request.getPassword()) && PasswordSecurityHandler.isPasswordLengthValid(request.getPassword())) {
-            throw new WeakPasswordException("Password is too weak.");
-        }
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .city(request.getCity())
-                .street(request.getStreet())
-                .zipCode(request.getZipCode())
-                .houseNumber(request.getHouseNumber())
-                .flatNumber(request.getFlatNumber())
-                .build();
-        userRepository.save(user);
-        return RegisterMessage.builder()
-                .message("User registered successfully")
-                .registered(true)
-                .build();
-    }
 
-    public RegisterMessage registerCustomer(CustomerRegisterRequest req){
-        if (userRepository.findByEmail(req.getEmail()).isPresent()){
-            throw new UserAlreadyExistsException("This user already exists!");
+    PasswordSecurityHandler psh = new PasswordSecurityHandler();
+
+    public RegisterMessage register(RegisterRequest request) {
+
+            if (userRepository.findByEmail(request.getEmail()).isPresent()){
+                throw new UserAlreadyExistsException("This user already exists!");
+            }
+            if (psh.isOnBlacklist(request.getPassword()) && psh.isPasswordLengthValid(request.getPassword())) {
+                throw new WeakPasswordException("Password is too weak.");
+            }
+            var user = User.builder()
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(request.getRole())
+                    .city(request.getCity())
+                    .street(request.getStreet())
+                    .zipCode(request.getZipCode())
+                    .houseNumber(request.getHouseNumber())
+                    .flatNumber(request.getFlatNumber())
+                    .build();
+            userRepository.save(user);
+            return RegisterMessage.builder()
+                    .message("User registered successfully")
+                    .registered(true)
+                    .build();
         }
-        if (PasswordSecurityHandler.isOnBlacklist(req.getPassword()) && PasswordSecurityHandler.isPasswordLengthValid(req.getPassword())) {
-            throw new WeakPasswordException("Password is too weak.");
+
+        public RegisterMessage registerCustomer(CustomerRegisterRequest req){
+            if (userRepository.findByEmail(req.getEmail()).isPresent()){
+                throw new UserAlreadyExistsException("This user already exists!");
+            }
+            if (psh.isOnBlacklist(req.getPassword()) && psh.isPasswordLengthValid(req.getPassword())) {
+                throw new WeakPasswordException("Password is too weak.");
+            }
+            var user = User.builder()
+                    .firstname(req.getFirstname())
+                    .lastname(req.getLastname())
+                    .email(req.getEmail())
+                    .password(passwordEncoder.encode(req.getPassword()))
+                    .role(SecurityRole.CUSTOMER)
+                    .city(req.getCity())
+                    .street(req.getStreet())
+                    .zipCode(req.getZipCode())
+                    .houseNumber(req.getHouseNumber())
+                    .flatNumber(req.getFlatNumber())
+                    .build();
+            userRepository.save(user);
+            return RegisterMessage.builder()
+                    .message("User registered successfully")
+                    .registered(true)
+                    .build();
         }
-        var user = User.builder()
-                .firstname(req.getFirstname())
-                .lastname(req.getLastname())
-                .email(req.getEmail())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .role(SecurityRole.CUSTOMER)
-                .city(req.getCity())
-                .street(req.getStreet())
-                .zipCode(req.getZipCode())
-                .houseNumber(req.getHouseNumber())
-                .flatNumber(req.getFlatNumber())
-                .build();
-        userRepository.save(user);
-        return RegisterMessage.builder()
-                .message("User registered successfully")
-                .registered(true)
-                .build();
-    }
 
     public AuthResponse login(AuthenticationRequest request, HttpServletResponse response) {
         authenticationManager.authenticate(
