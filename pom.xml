@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.armator</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>armator</artifactId>
+	<version>0.0.1</version>
 	<name>Armator</name>
 	<description>Armator java app</description>
 	<properties>
