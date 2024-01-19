@@ -1,6 +1,17 @@
+<<<<<<< HEAD
 .idea/
 *.iml
 *.iws
 target/
 .sonar/
 .sonarlint/
+=======
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.gitignore
+.git
+>>>>>>> origin/frontend
