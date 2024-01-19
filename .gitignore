@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 HELP.md
 /src/main/resources/keystore
 target/
@@ -45,6 +44,9 @@ build/
 # testing
 /coverage
 
+
+# UI
+
 # next.js
 /.next/
 /out/
@@ -72,4 +74,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
->>>>>>> origin/frontend
