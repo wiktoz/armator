@@ -3,6 +3,7 @@ package com.armator.controller;
 
 import com.armator.DTO.Message;
 import com.armator.DTO.ship.CreateShipReq;
+import com.armator.DTO.ship.DeleteResponse;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
@@ -45,7 +46,7 @@ public class ShipController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Message> deleteShip(@PathVariable Integer id) {
+    public ResponseEntity<DeleteResponse> deleteShip(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.deleteShip(id));
     }
 

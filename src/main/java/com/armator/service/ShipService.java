@@ -3,6 +3,7 @@ package com.armator.service;
 
 import com.armator.DTO.Message;
 import com.armator.DTO.ship.CreateShipReq;
+import com.armator.DTO.ship.DeleteResponse;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
@@ -105,11 +106,29 @@ public class ShipService {
                     .build();
     }
 
-    public Message deleteShip(Integer id) {
-        var ship = shipRepository.findByShipId(id).orElseThrow( () -> new RuntimeException("Ship not found"));
-        shipRepository.delete(ship);
-        return Message.builder()
+    public DeleteResponse deleteShip(Integer id) {
+        Ship ship = null;
+        try{
+            ship = shipRepository.findByShipId(id).orElseThrow( () -> new RuntimeException("Ship not found"));
+        }
+        catch (Exception e){
+            return DeleteResponse.builder()
+                        .message("Ship not deleted. Error: Ship not found.")
+                        .deleted(false)
+                        .build();
+        }
+        try{
+            shipRepository.delete(ship);
+        } catch (Exception e){
+            return DeleteResponse.builder()
+                        .message("Ship not deleted. Error: Data integrity violation.")
+                        .deleted(false)
+                        .build();
+        }
+
+        return DeleteResponse.builder()
                     .message("Ship deleted")
+                    .deleted(true)
                     .build();
     }
 
