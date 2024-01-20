@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,14 +30,16 @@ public class  CruiseService {
     }
 
     public Cruise createCruise(CreateCruiseReq req) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         Set<Worker> workers = req.getWorkersIds().stream().map( id -> {
             return workerRepository.findByWorkerId(id).orElseThrow( () -> new RuntimeException("Worker not found"));
         }).collect(Collectors.toSet());
         var ship = shipRepository.findByShipId(req.getShipId()).orElseThrow( () -> new RuntimeException("Ship not found"));
         var srcPort = portRepository.findByPortId(req.getSrcPortId()).orElseThrow( () -> new RuntimeException("Port not found"));
         var dstPort = portRepository.findByPortId(req.getDstPortId()).orElseThrow( () -> new RuntimeException("Port not found"));
-        var startDate = LocalDateTime.parse(req.getStartDate());
-        var endDate = LocalDateTime.parse(req.getEndDate());
+        var startDate = LocalDateTime.parse(req.getStartDate(), formatter);
+        var endDate = LocalDateTime.parse(req.getEndDate(), formatter);
         var cruise = Cruise.builder()
                 .ship(ship)
                 .workers(workers)
