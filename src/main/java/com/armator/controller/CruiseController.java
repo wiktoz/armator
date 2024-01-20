@@ -27,4 +27,9 @@ public class CruiseController {
     public ResponseEntity<Cruise> updateCruise(@PathVariable Integer id, @RequestBody CreateCruiseReq req) {
         return ResponseEntity.ok(cruiseService.updateCruise(id, req));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllCruises() {
+        return ResponseEntity.ok(cruiseService.getAllCruises());
+    }
 }

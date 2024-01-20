@@ -132,12 +132,12 @@ public class ApplicationConfig {
         shipRepository.save(ship2);
 
         var ship3 = Ship.builder()
-                .name("ORP Jerzy Popiełuszko")
+                .name("Tytanis")
                 .shipOwner(shipOwner)
                 .flag("Poland")
-                .maxKnots(2137)
-                .maxFuelCapacity(2137)
-                .maxLoadsNumber(2137)
+                .maxKnots(17)
+                .maxFuelCapacity(37)
+                .maxLoadsNumber(217)
                 .latitude(54.9)
                 .longitude(16.3)
                 .build();
