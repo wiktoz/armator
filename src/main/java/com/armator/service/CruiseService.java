@@ -94,7 +94,5 @@ public class  CruiseService {
         cruiseRepository.save(cruise);
         return cruise;
     }
-    public List<Cruise> getAllCruises() {
-        return cruiseRepository.findCruises();
-    }
+
 }

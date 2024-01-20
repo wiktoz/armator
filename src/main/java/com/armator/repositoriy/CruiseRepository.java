@@ -9,6 +9,4 @@ import java.util.Optional;
 
 public interface CruiseRepository extends JpaRepository<Cruise, Integer> {
     Optional<Cruise> findCruiseByCruiseId(Integer id);
-    @Query("select c from Cruise c inner join Port  P on (c.srcPort= P) inner join Port P2 on (c.dstPort = P2) inner join Ship S on (c.ship = s)")
-    List<Cruise> findCruises();
 }
