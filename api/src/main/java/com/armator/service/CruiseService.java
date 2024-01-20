@@ -10,6 +10,7 @@ import com.armator.repositoriy.ShipRepository;
 import com.armator.repositoriy.WorkerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -89,5 +90,9 @@ public class  CruiseService {
         }
         cruiseRepository.save(cruise);
         return cruise;
+    }
+
+    public List<Cruise> getAllCruises() {
+        return cruiseRepository.findAll();
     }
 }
