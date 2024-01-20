@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/user/email/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/user/all/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
                 .requestMatchers("/api/v1/user/id/**").hasAnyAuthority(SecurityRole.SHIPOWNER.name(), SecurityRole.ADMIN.name())
+                .requestMatchers("/api/v1/cruises/all").permitAll()
                 .anyRequest().authenticated();
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
