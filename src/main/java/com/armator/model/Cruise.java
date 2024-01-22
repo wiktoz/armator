@@ -37,7 +37,7 @@ public class Cruise {
     @ManyToOne
     @JoinColumn(name = "dstPortId")
     private Port dstPort;
-    @ManyToMany(mappedBy = "cruises")
+    @ManyToMany(mappedBy = "cruises", cascade = CascadeType.ALL)
     private Set<Worker> workers;
 
 

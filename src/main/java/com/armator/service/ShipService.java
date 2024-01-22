@@ -7,7 +7,9 @@ import com.armator.DTO.ship.DeleteResponse;
 import com.armator.DTO.ship.Position.PositionResponse;
 import com.armator.DTO.ship.Position.UpdatePositionReq;
 import com.armator.DTO.ship.ShipResponse;
+import com.armator.model.Cruise;
 import com.armator.model.Ship;
+import com.armator.repositoriy.CruiseRepository;
 import com.armator.repositoriy.ShipRepository;
 import com.armator.repositoriy.ShipownerRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class ShipService {
     private final ShipRepository shipRepository;
     private final ShipownerRepository shipownerRepository;
+    private final CruiseRepository cruiseRepository;
 
 
     public PositionResponse getPosition(Integer id) {
@@ -130,6 +133,10 @@ public class ShipService {
                     .message("Ship deleted")
                     .deleted(true)
                     .build();
+    }
+    public List<Cruise> predelete(Integer id){
+        return cruiseRepository.findAllByShip(shipRepository.findByShipId(id).orElseThrow( () -> new RuntimeException("Ship not found")));
+
     }
 
     public List<Ship> getAllShips() {

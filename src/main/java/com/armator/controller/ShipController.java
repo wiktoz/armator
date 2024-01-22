@@ -45,8 +45,13 @@ public class ShipController {
         return ResponseEntity.ok(shipService.updateShip(id, req));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteResponse> deleteShip(@PathVariable Integer id) {
+    @GetMapping("/predelate/{id}")
+    public ResponseEntity<?> deleteShip(@PathVariable Integer id) {
+        return ResponseEntity.ok(shipService.predelete(id));
+    }
+
+    @DeleteMapping("/{id}/confirm")
+    public ResponseEntity<?> deleteShipConfirm(@PathVariable Integer id) {
         return ResponseEntity.ok(shipService.deleteShip(id));
     }
 
